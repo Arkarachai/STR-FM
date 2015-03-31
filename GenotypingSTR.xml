@@ -1,0 +1,72 @@
+<tool id="GenotypeSTR" name="Correct genotype for microsatellite errors" version="2.0.0">
+  <description> during sequencing and library prep </description>
+  <command interpreter="python2.7">GenotypeTRcorrection.py  $microsat_raw $microsat_error_profile $microsat_corrected  $expectedminorallele </command>
+
+  <inputs>
+    <param name="microsat_raw" type="data" label="Select microsatellite length profile that need to refine genotyping" />
+    <param name="microsat_error_profile" type="data" label="Select microsatellite error profile that correspond to this dataset" />
+	<param name="expectedminorallele" type="float" value="0.5" label="Expected contribution of minor allele when present (0.5 for genotyping)" />
+
+  </inputs>
+  <outputs>
+    <data name="microsat_corrected" format="tabular" />
+  </outputs>
+  <tests>
+    <!-- Test data with valid values -->
+    <test>
+      <param name="microsat_raw" value="sampleTRprofile_C.txt"/>
+      <param name="microsat_error_profile" value="PCRinclude.allrate.bymajorallele"/>
+      <param name="expectedminorallele" value="0.5"/>
+      <output name="microsat_corrected" file="sampleTRgenotypingcorrection"/>
+    </test>
+    
+  </tests>
+  <help>
+
+
+.. class:: infomark
+
+**What it does**
+
+- This tool will correct for microsatellite sequencing and library preparation errors using error rates estimated from hemizygous male X chromosome or any rates provided by user. The read profile for each locus will be processed independently. 
+- First, this tool will find three most common read lengths from input read length profile. If the read profile has only one length of TR, the length of one motif longer than the observed length will be used as the second most common read length. 
+- Second, it will calculate probability of three forms of homozygous and use the form which give the highest probability. The same goes for heterozygous. 
+- Third, this tools will calculate log based 10 of (the probability of homozygous/the probability of heterozygous). If this value is more than 0, it will predict this locus to homozygous. If this value is less than 0, it will predict this locus to heterozygous. If this value is 0, read profile at this locus will be discard. 
+
+**Citation**
+
+When you use this tool, please cite **Arkarachai Fungtammasan and Guruprasad Ananda (2014).**
+ 
+**Input**
+
+- The input files need to contain at least three columns. 
+- Column 1 = location of microsatellite locus. 
+- Column 2 = length profile (length of microsatellite in each read that mapped to this location in comma separated format). 
+- Column 3 = motif of microsatellite in this locus. The input file can contain more than three column. 
+
+**Output**
+
+The output will be contain original three (or more) column as the input. However, it will also have these following columns. 
+
+- Additional column 1 = homozygous/heterozygous label.
+- Additional column 2 = log based 10 of (the probability of homozygous/the probability of heterozygous)
+- Additional column 3 = Allele for most probable homozygous form.
+- Additional column 4 = Allele 1 for most probable heterozygous form.
+- Additional column 5 = Allele 2 for most probable heterozygous form.
+
+**Example**
+
+- Suppose that we sequence one locus of microsatellite with NGS. This locus has **A** motif and the following length (bp) profile. ::
+
+	chr1_100_106	5, 6, 6, 6, 6, 7, 7, 8, 8	A
+	
+- We want to figure out if this locus is a homolozygous or heterozygous and the corresponding allele(s). Therefore, we use this tool to refine genotype.
+- This tool will calculate the probability of homozygous A6A6, A7A7, and A8A8 to generate observed length profile. Among this A7A7 has the highest probability. Therefore, we use this form as the representative for homozygous.
+- Then, this tool will calculate the probability of heterozygous A6A7, A7A8, and A6A8 to generate observed length profile. Among this A6A8 has the highest probability. Therefore, we use this form as the representative for heterozygous.    
+- The A6A7 has higher probability than A7A7. Therefore, the program will report that this locus is a heterozygous locus. ::
+
+	chr1	5,6,6,6,6,7,7,8,8	A	hetero	-14.8744881854	7	6	8
+
+
+</help>
+</tool>

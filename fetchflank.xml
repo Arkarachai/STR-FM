@@ -1,0 +1,73 @@
+<tool id="fetchflank" name="Fetch flanking bases" version="1.0.0">
+  <description> of microsatellites and output as two fastq files in forward-forward orientation</description>
+  <command interpreter="python">pair_fetch_DNA_ff.py  $microsat_in_read $Leftflanking $Rightflanking $qualitycutoff $lengthofbasetocheckquality  </command>
+
+  <inputs>
+    <param name="microsat_in_read" type="data" label="Select data of microsatellites in reads" />
+    <param name="qualitycutoff" type="integer" value="20" label="Minimum quality score (Phred+33) for microsatellites and flanking regions" />
+    <param name="lengthofbasetocheckquality" type="integer" value="20" label="Length of flanking regions that require quality screening" />        
+  </inputs>
+  <outputs>
+    <data format="fastq" name="Leftflanking" />
+    <data format="fastq" name="Rightflanking" />
+  </outputs>
+  <tests>
+    <!-- Test data with valid values -->
+    <test>
+      <param name="microsat_in_read" value="samplefq.snoope"/>
+      <param name="qualitycutoff" value="20"/>
+      <param name="lengthofbasetocheckquality" value="20"/>
+      <output name="Leftflanking" file="microsatellite_flanking_L.fastq"/>
+      <output name="Rightflanking" file="microsatellite_flanking_R.fastq"/>
+    </test>
+    
+  </tests>
+  <help>
+
+
+.. class:: infomark
+
+**What it does**
+
+This tool will fetch flanking regions around microsatellites, screen for quality score at microsatellites and adjacent flanking regions, and output two fastq files containing flanking regions in forward-forward direction.
+
+- This tool assumes that the quality score is Phred+33, such as Sanger fastq.
+- Reads that have either left or right flanking regions shorter than the length of flanking regions that require quality screening will be removed.
+
+**Citation**
+When you use this tool, please cite **Arkarachai Fungtammasan and Guruprasad Ananda (2014).**
+ 
+**Input**
+
+The input files need to be in the same format as output from **microsatellite detection program**. This format contains **length of repeat**, **length of left flanking region**, **length of right flanking region**, **repeat motif**, **hamming (editing) distance**, **read name**, **read sequence**, **read quality score**
+
+**Output**
+
+The output will be the two fastq files. The first file contains left flank regions. The second file contains right flanking regions.
+
+**Example**
+
+- Suppose we detected the microsatellites from short reads ::
+
+	6	40	54	G	0	SRR345592.75000006 HS2000-192_107:1:63:5822:176818_1_per1_1	TACCCTCCTGTCTTCCCAGACTGATTTCTGTTCCTGCCCTggggggTTCTTGACTCCTCTGAATGGGTACGGGAGTGTGGACCTCAGGGAGGCCCCCTTG	GGGGGGGGGGGGGGGGGFGGGGGGGGGFEGGGGGGGGGGG?FFDFGGGGGG?FFFGGGGGDEGGEFFBEFCEEBD@BACB*?=99(/=5'6=4:CCC*AA
+    
+
+- We want to get fastq files of flanking regions around microsatellite with quality score at least 20 on Phred +33  
+  
+- Then the program will report these two fastq files ::
+
+	@SRR345592.75000006 HS2000-192_107:1:63:5822:176818_1_per1_1
+	TACCCTCCTGTCTTCCCAGACTGATTTCTGTTCCTGCCCT
+	+SRR345592.75000006 HS2000-192_107:1:63:5822:176818_1_per1_1
+	GGGGGGGGGGGGGGGGGFGGGGGGGGGFEGGGGGGGGGGG
+
+
+	@SRR345592.75000006 HS2000-192_107:1:63:5822:176818_1_per1_1
+	TTCTTGACTCCTCTGAATGGGTACGGGAGTGTGGACCTCAGGGAGGCCCCCTTG
+	+SRR345592.75000006 HS2000-192_107:1:63:5822:176818_1_per1_1
+	GGGGG?FFFGGGGGDEGGEFFBEFCEEBD@BACB*?=99(/=5'6=4:CCC*AA
+  
+
+
+</help>
+</tool>

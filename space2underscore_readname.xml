@@ -1,0 +1,47 @@
+<tool id="space2underscore_readname" name="Read name modifier" version="1.0.0">
+  <description>--change space to underscore of a specific column</description>
+  <command interpreter="python">changespacetounderscore_readname.py  $input $output $column_n </command>
+
+  <inputs>
+    <param name="input" type="data" label="Select input" />
+    <param name="column_n" type="integer" value="6" label="Select column to modify" />
+  </inputs>
+  <outputs>
+    <data format="tabular" name="output" />
+    
+  </outputs>
+  <tests>
+    <!-- Test data with valid values -->
+    <test>
+      <param name="input" value="samplefq.snoope"/>
+      <param name="column_n" value="6"/>
+      <output name="output" file="samplefq.snoope.new"/>
+    </test>
+    
+  </tests>
+  <help>
+
+
+.. class:: infomark
+
+**What it does**
+
+This tool is used to change space to underscore. For TRFM pipeline (profiling microsatellites in short read data), this tool is used to change space in read name to underscore to prevent the downstream tools which might recognize incorrect column number due to space in read name. If the input do not have space in read name, this step can be skipped.
+
+**Citation**
+
+When you use this tool, please cite **Arkarachai Fungtammasan and Guruprasad Ananda (2014).**
+ 
+**Input**
+
+The input files can be any tab delimited file. 
+
+If this tool is used in TRFM microsatellite profiling, it should be in the same format as output from **microsatellite detection program**. This format contains **length of repeat**, **length of left flanking region**, **length of right flanking region**, **repeat motif**, **hamming (editing) distance**, **read name**, **read sequence**, **read quality score**
+
+**Output**
+
+The same as input format.
+
+
+</help>
+</tool>

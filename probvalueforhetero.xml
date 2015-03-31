@@ -1,0 +1,66 @@
+<tool id="heteroprob" name="Evaluate the probability of the allele combination to generate read profile" version="2.0.0">
+  <description></description>
+  <command interpreter="python2.7">heteroprob.py  $microsat_raw $microsat_error_profile  $expectedminorallele > $microsat_corrected </command>
+
+  <inputs>
+    <param name="microsat_raw" type="data" label="Select microsatellite length profile and allele combination file" />
+    <param name="microsat_error_profile" type="data" label="Select microsatellite error profile that correspond to this dataset" />
+	<param name="expectedminorallele" type="float" value="0.5" label="Expected contribution of minor allele when present (0.5 for genotyping)" />
+
+  </inputs>
+  <outputs>
+    <data name="microsat_corrected" format="tabular" />
+  </outputs>
+  <tests>
+    <!-- Test data with valid values -->
+    <test>
+      <param name="microsat_raw" value="probvalueforhetero_in.txt"/>
+      <param name="microsat_error_profile" value="PCRinclude.allrate.bymajorallele"/>
+      <param name="expectedminorallele" value="0.5"/>
+      <output name="microsat_corrected" file="probvalueforhetero_out.txt"/>
+    </test>
+    
+  </tests>
+  <help>
+
+
+.. class:: infomark
+
+**What it does**
+
+- This tool will calculate the probability that the allele combination can generated the given read profile. This tool is part of the pipeline to estimate minimum read depth.
+- The calculation of probability is very similar to the tool **Correct genotype for microsatellite errors**. However, this tool will restrict the calculation to only the allele combination indicated in input. Also, when it encounter allele combination that cannot be generated from error profile, the total probability will be zero instead of using base substitution rate. 
+
+**Citation**
+
+When you use this tool, please cite **Arkarachai Fungtammasan and Guruprasad Ananda (2014).**
+ 
+**Input**
+
+The input format is the same as output from **Correct genotype for microsatellite errors** tool.
+
+- Column 1 = location of microsatellite locus. 
+- Column 2 = length profile (length of microsatellite in each read that mapped to this location in comma separated format). 
+- Column 3 = motif of microsatellite in this locus. The input file can contain more than three column. 
+- Column 4 = homozygous/heterozygous label.
+- Column 5 = log based 10 of (the probability of homozygous/the probability of heterozygous)
+- Column 6 = Allele for most probable homozygous form.
+- Column 7 = Allele 1 for most probable heterozygous form.
+- Column 8 = Allele 2 for most probable heterozygous form.
+
+Only column 2,3,7,8 were used in calculation. 
+
+**Output**
+
+
+The output will be contain original eight column from the input. However, it will also add these following columns. 
+- Column 9 = Probability of the allele combination to generate given read profile.
+- Column 10 = Number of possible rearrangement of given read profile.
+- Column 11 = Probability of the allele combination to generate read profile with any rearrangement (Product of column 9 and column 10)
+- Column 12 = Read depth
+
+
+
+
+</help>
+</tool>

@@ -1,0 +1,57 @@
+<tool id="readdepth2seqdepth" name="Convert informative read depth to sequencing depth" version="1.0.0">
+  <description>for flank-based mapping of microsatellites</description>
+  <command interpreter="python2.7">sequencingdepthconversion_G.py $repeatlength $flanksize $readlength $infodepth $probprediction > $output </command>
+
+  <inputs>
+    <param name="repeatlength" type="integer" value="10" label="Repeat length (bp)" />
+    <param name="flanksize" type="integer" value="20" label="Required flank bases on each side in mapping" />
+    <param name="readlength" type="integer" value="100" label="Read length (treat all read as single end read)" />
+    <param name="infodepth" type="integer" value="5" label="Required read depth" />
+    <param name="probprediction" type="float" value="0.9" label="Proportion of genome that need certain level of read depth" />
+  </inputs>
+  <outputs>
+    <data format="input" name="output" />
+    
+  </outputs>
+  <tests>
+    <!-- Test data with valid values -->
+    <test>
+		<param name="repeatlength" value="10"/>
+    	<param name="flanksize" value="20" />
+    	<param name="readlength" value="100" />
+    	<param name="infodepth" value="5" />
+		<param name="probprediction"  value="0.9" />
+		<output name="output" file="readdepth2seqdepth.out"/>
+    </test>
+    
+  </tests>
+  <help>
+
+
+.. class:: infomark
+
+**What it does**
+
+This tool is used to convert informative read depth (specified by user) to sequencing depth when the microsatellites is mapped using TRFM pipeline.
+The locus specific sequencing depth is the sequencing depth that will make a certain loci have certain read depth based on uniform mapped of read. It is calculated as: ::
+
+	yrequired = ( X * L ) / (L - (2F+r-1))
+	
+Where X = read depth, L = read length, F = the number of flanked bases required on each flanking regions, r = the expected repeat length of microsatellite of interest.
+
+The genome wide sequencing depth is the sequencing depth that will make certain percentage of genome (e.g. 90 percent or 95 percent) to have certain locus specific sequencing depth. It's calculated using numerical guessing to find smallest lambda that: ::
+
+	 0.90 (or other proportion specified by user) &lt; = P(Y=0) + P(Y=1) + …+ P(Y=yrequired-1)  
+	 
+	 P(Y=y) = (lambda^(y) * e ^(-lambda)) /y!
+
+ y = specific level of sequencing depth. Lambda = genome wide sequencing depth
+
+
+**Citation**
+
+When you use this tool, please cite **Arkarachai Fungtammasan and Guruprasad Ananda (2014).**
+ 
+
+</help>
+</tool>

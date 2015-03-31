@@ -1,0 +1,110 @@
+<tool id="Profilegenerator" name="Generate all possible combination of read profile" version="2.0.0">
+  <description> of the consecutive allele from given error profile </description>
+  <command interpreter="python2.7">profilegenerator.py  $error_profile $MOTIF $Maxdepth $minprob > $output </command>
+
+  <inputs>
+    <param name="error_profile" type="data" label="Select error profile" />
+    <param name="MOTIF" type="text" value="A" label="Type in a motif of interest (e.g. AGC)" />
+	<param name="Maxdepth" type="integer" value="30" label="Maximum read depth of interest" />
+	<param name="minprob" type="float" value="0.00000001" label="Minimum error rate to be considered" />
+
+  </inputs>
+  <outputs>
+    <data name="output" format="tabular" />
+  </outputs>
+  <tests>
+    <!-- Test data with valid values -->
+    <test>
+      <param name="error_profile" value="sampleprofilegenerator_in"/>
+      <param name="MOTIF" value="A"/>
+      <param name="Maxdepth" value="3"/>
+      <param name="minprob" file="0.00000001"/>
+      <output name="output" file="sampleprofilegenerator_out"/>
+    </test>
+    
+  </tests>
+  <help>
+
+
+.. class:: infomark
+
+**What it does**
+
+This tool will generate all possible combination of observed read profile of the consecutive alleles from given error profile. The range of observed read length can be filtered to contain only those that are frequently occur using "Minimum error rate to be considered" parameter.
+
+This problem will collect the lists of valid (pass "Minimum error rate to be considered" threshold) observed length profiles from combination of consecutive allele lengths. The lists that are equivalent or the subset of the other lists will be removed. For each depth and each list, length profile were generated from combination with replacement which compatible with python 2.7. There could be redundant error profiles generated from different lists if more than one combination of allele is generated due to overlap range of observed microsatellite lengths. The user need to remove them which can be done easily using **sort | uniq** command in unix.
+
+
+**Citation**
+
+When you use this tool, please cite **Arkarachai Fungtammasan and Guruprasad Ananda (2014).**
+ 
+**Input**
+
+- The error profile needs to contain these three columns. 
+- Column 1 = Correct microsatellite length 
+- Column 2 = Observed microsatellite length 
+- Column 3 = Number of observation
+
+**Output**
+
+- Column 1 = Place holder for location of microsatellite locus. (just "chr")
+- Column 2 = length profile (length of microsatellite in each read that mapped to this location in comma separated format). 
+- Column 3 = motif of microsatellite in this locus. 
+ 
+**Example**
+
+- Suppose that we provide the following read profile ::
+
+	9	9	100000
+	10	10	91456
+	10	9	1259	
+	11	11	39657
+	11	10	1211
+	11	12	514
+	
+
+- Using default minimum probability to be consider and motif = A, all observed read lengths are valid. The program will generated lists of observed length profiles from consecutive allele length. ::
+
+	9:10 = [9,10]
+	10:11 = [9,10,11,12]
+	
+- Lists that are subsets of other lists will be removed. Thus, [9,10] will not be considered. 
+
+- Then the program will generate all combination with replacement for each depth from each list. Using **maximum read depth =3**, we will ge the following output. ::
+
+	
+	chr	9,9	A
+	chr	9,10	A
+	chr	9,11	A
+	chr	9,12	A
+	chr	10,10	A
+	chr	10,11	A
+	chr	10,12	A
+	chr	11,11	A
+	chr	11,12	A
+	chr	12,12	A
+	chr	9,9,9	A
+	chr	9,9,10	A
+	chr	9,9,11	A
+	chr	9,9,12	A
+	chr	9,10,10	A
+	chr	9,10,11	A
+	chr	9,10,12	A
+	chr	9,11,11	A
+	chr	9,11,12	A
+	chr	9,12,12	A
+	chr	10,10,10	A
+	chr	10,10,11	A
+	chr	10,10,12	A
+	chr	10,11,11	A
+	chr	10,11,12	A
+	chr	10,12,12	A
+	chr	11,11,11	A
+	chr	11,11,12	A
+	chr	11,12,12	A
+	chr	12,12,12	A
+
+
+</help>
+</tool>

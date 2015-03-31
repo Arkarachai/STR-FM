@@ -1,0 +1,62 @@
+<tool id="PEsortedSAM2readprofile" name="Combine mapped flaked bases" version="1.0.0">
+  <description> from SAM file sorted by readname  </description>
+  <command interpreter="python2.7">PEsortedSAM2readprofile.py  $flankedbasesSAM $twobitref $maxTRlength $maxoriginalreadlength $output </command>
+
+  <inputs>
+    <param name="flankedbasesSAM" type="data" format="sam" label="Select sorted SAM file (by readname) of flaked bases" />
+    <param name="twobitref" type="data" label="Select twobit file reference genome" />
+	<param name="maxTRlength" type="integer" value="100" label="Maximum expected microsatellite length (bp)" />
+	<param name="maxoriginalreadlength" type="integer" value="101" label="Maxinum original read length" />
+
+  </inputs>
+  <outputs>
+    <data name="output" format="tabular" />
+  </outputs>
+  <tests>
+    <!-- Test data with valid values -->
+    <test>
+      <param name="flankedbasesSAM" value="samplesortedPESAM_C.sam"/>
+      <param name="twobitref" value="shifted.2bit"/>
+      <param name="maxTRlength" value="100"/>
+      <param name="maxoriginalreadlength" value="250"/>
+      <output name="output" file="samplePESAM_2_profile_C.txt"/>
+    </test>
+    
+  </tests>
+  <help>
+
+
+.. class:: infomark
+
+**What it does**
+
+- This tool will take SAM file sorted by read name, remove unpaired reads, report microsatellites sequences in the reference genome that correspond to the space between paired end reads. Coordinate of start and stop for left and right flanking regions of microsatellites and microsatellite itself as inferred from paired end reads will also be reported.
+- These microsatellites in reference can be used to filter out reads that do not contain microsatellites that concur with microsatellites in reference where the reads mapped to.
+
+**Citation**
+
+When you use this tool, please cite **Arkarachai Fungtammasan and Guruprasad Ananda (2014).**
+ 
+**Input**
+
+- Sorted SAM files by read name
+
+**Output**
+
+The output will combined two lines of input which are paired. The output format is as follow.
+
+- Column 1 = read name
+- Column 2 = chromosome 
+- Column 3 = left flanking region start
+- Column 4 = left flanking region stop
+- Column 5 = microsatellite start
+- Column 6 = microsatellite stop
+- Column 7 = right flanking region start
+- Column 8 = right flanking region stop
+- Column 9 = microsatellite length in reference
+- Column 10= microsatellite sequence in reference
+
+
+
+</help>
+</tool>

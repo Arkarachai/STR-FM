@@ -1,0 +1,178 @@
+﻿<tool id="microsatellite" name="Microsatellite detection" version="1.0.0">
+	<description>for short read, reference, and mapped data</description>
+	<command interpreter="python2.7"> microsatellite.py
+	"${filePath}"
+	#if $inputFileSource.inputFileType == "fasta"
+		--fasta
+    #elif $inputFileSource.inputFileType == "fastq"
+		--fastq
+    #elif $inputFileSource.inputFileType == "fastq_noquals"
+		--fastq:noquals
+	#elif $inputFileSource.inputFileType == "sam"
+		--sam
+    #end if
+	
+	#if $inputFileSource.inputFileType == "sam"
+		#if $inputFileSource.referenceFileSource.requireReference
+			--r --ref="${inputFileSource.referenceFileSource.referencePath}"
+		#end if
+    #end if
+	
+	--period="${period}"
+	
+	#if $partialmotifs == "true"
+		--partialmotifs
+    #end if
+	
+	--minlength="${minlength}"
+
+
+	--prefix="${prefix}"
+	--suffix="${surfix}"
+	
+	--hamming="${hammingThreshold}"
+	
+	#if $multipleruns
+		--multipleruns
+        #end if
+
+	#if $flankSetting.noflankdisplay
+		--noflankdisplay
+	#else
+		--flankdisplay=${flankSetting.flankdisplay}
+	#end if
+	&gt; $stdout
+	</command>
+	
+  <inputs>
+	<param name="filePath" label="Select input file" type="data"/>
+	<conditional name="inputFileSource">
+		<param name="inputFileType" type="select" label="Select input file type">
+			<option value="fasta">Fasta File</option>
+			<option value="fastq">Fastq File</option>
+			<option value="fastq_noquals">Fastq File without Quality Information</option>
+			<option value="sam">SAM File</option>
+		</param>
+		<when value="sam">
+		    <conditional name="referenceFileSource">
+				<param name="requireReference" label="Do you want to extract correspond microsatellites in reference for comparison?" type="boolean">
+				</param>
+				<when value="true">
+					<param name="referencePath" label="Select reference file" type="data"/>
+				</when>
+			</conditional>
+		</when>
+	</conditional>
+	
+	<param name="period" label="Motif size of microsatellites of interest (e.g. Mononucleotide microsatellite =1) (must be less than 10)" type="integer" size="2" value="1"/>
+  <param name="partialmotifs" label="Consider microsatellites with a partial motif?" type="boolean" checked="True"/>
+	<param name="minlength" label="Minimal length (bp) of microsatellite sequence reported" type="integer" size="2" value="5"/>
+	
+
+	<param name="prefix" label="Do not report candidate repeat intervals that have left flanking region less than (bp):" type="integer" size="4" value="20"/>
+	<param name="surfix" label="Do not report candidate repeat intervals that have left flanking region less than (bp):" type="integer" size="4" value="20"/>
+
+	
+	<param name="hammingThreshold" label="Hamming threshold of microsatellite, If greater than 0,  interrupted microsatellites will also be reported" type="integer" size="2" value="0"/>
+	<param name="multipleruns" label="Consider all candidate intervals in a sequence. If not check, only the longest one will be considered" type="boolean" checked="True"> </param>
+	<conditional name="flankSetting">
+        	<param name="noflankdisplay" label="Show the entire flanking regions" type="boolean" checked="True"/>
+		<when value="false">
+			<param name="flankdisplay" label="Limit length (bp) of flanking regions shown" type="integer" size="4" value="5"/>
+		</when>
+	</conditional>
+    
+  </inputs>
+  <outputs>
+    <data name="stdout" format="tabular"/>
+  </outputs>
+  <tests>
+    <!-- Test data with valid values -->
+    <test>
+      <param name="filePath" value="C_sample_fastq"/>
+	  <param name="period" value="1"/>
+      <param name="partialmotifs" value="true" />
+	  <param name="minlength" value="3" />
+	  <param name="prefix" value="5"/>
+	  <param name="surfix" value="5"/>
+	  <param name="hammingThreshold"  value="0"/>
+	  <param name="multipleruns" value="true"> </param>
+      <output name="microsatellite" file="C_sample_snoope"/>
+    </test>
+    
+  </tests>
+  <help>
+
+
+.. class:: infomark
+
+**What it does**
+
+We use different algorithms to detect microsatellites depend on hamming distance parameter. 
+If hamming distance is set to zero, the program will only concern about uninterrupted microsatellites. The process works as follows.
+
+1) Scanning reads using sliding windows. For a given repeat period ‘k’ (e.g. k=2 for dinucleotide TRs), we compared consecutive k-mer window size sequences, with a step size of k. If a base at a given position matches one k positions earlier it was marked with a plus, if corresponding sites had different bases it was marked with a minus. The first k position is blank.
+
+2) Since we do not allow mutations in reported TR, consecutive “+” signal sequence means that a k-mer TR is present in this sample. 
+
+3) Report k-mer TRs if the length is larger than a threshold provided by the user.
+
+If hamming distance is set to integer more than zero, the program will concern both uninterrupted and interrupted microsatellites. The process works as follows:
+
+(1) Identify intervals that are highly correlated with the interval shifted by ‘k’ (the repeat period).  These intervals are called "runs" or "candidates". The allowed level of correlation is 6/7. Depending on whether we want to look for more than one microsat, we either find the longest such run (simple algorithm) or many runs (more complicated algorithm). The following steps are then performed on each run.
+
+(2) Find the most likely repeat motif in the run.  This is done by counting all kmers (of length P) and choosing the most frequent.  If that kmer is itself covered by a sub-repeat we discard this run.  The idea is that we can ignore a 6-mer like ACGACG because we will find it when we are looking for 3-mers.
+
+(3) Once we identify the most likely repeat motif, we then modify the interval, adjusting start and end to find the interval that has the fewest mismatches vs. a sequence of the motif repeated (hamming distance). 
+
+(4) At this point we have a valid microsat interval (in the eyes of the program). It is subjected to some filtering stages (hamming distance or too close to an end), and if it satisfies those conditions, it's reported to the user
+    
+For more option, the script to run this program can be downloaded and run with python independently from Galaxy. There are more option for the script mode. Help page is build-in inside the script.
+
+**Citation**
+
+When you use this tool, please cite **Arkarachai Fungtammasan and Guruprasad Ananda (2014).**
+This tool is developed by Chen Sun (cxs1031@cse.psu.edu) and Bob Harris (rsharris@bx.psu.edu)
+ 
+**Input**
+
+- The input files can be fastq, fasta, fastq without quality score, and SAM format.
+
+**Output**
+
+For fastq, the output will contain the following columns:
+
+- Column 1 = length of microsatellites (bp)
+- Column 2 = length of left flanking regions (bp)
+- Column 3 = length of right flanking regions (bp)
+- Column 4 = repeat motif (bp)
+- Column 5 = hamming distance 
+- Column 6 = read name
+- Column 7 = read sequence with soft masking of microsatellites
+- Column 8 = read quality (the same Phred score scale as input)
+
+For fasta, fastq without quality score and sam format, column 8 will be replaced with dot(.).
+
+If the users have mapped file (SAM) and would like to profile microsatellites from premapped data instead of using flank-based mapping approach, they can select SAM format input and specify that they want correspond microsatellites in reference for comparison. The output will be as follow:
+
+- Column 1 = length of microsatellites (bp)
+- Column 2 = length of left flanking regions (bp)
+- Column 3 = length of right flanking regions (bp)
+- Column 4 = repeat motif (bp)
+- Column 5 = hamming distance 
+- Column 6 = read name
+- Column 7 = read sequence with soft masking of microsatellites
+- Column 8 = read quality (the same Phred score scale as input)
+- Column 9 = read name (The same as column 6)
+- Column 10 = chromosome 
+- Column 11 = left flanking region start
+- Column 12 = left flanking region stop
+- Column 13 = microsatellite start as infer from pair-end
+- Column 14 = microsatellite stop as infer from pair-end
+- Column 15 = right flanking region start
+- Column 16 = right flanking region stop
+- Column 17 = microsatellite length in reference
+- Column 18 = microsatellite sequence in reference
+
+</help>
+</tool>

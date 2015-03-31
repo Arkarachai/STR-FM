@@ -1,0 +1,76 @@
+<tool id="microsatcompat" name="Check microsatellites motif compatibility" version="1.0.0">
+  <description> </description>
+  <command interpreter="python">microsatcompat.py $input $column1 $column2 > $output </command>
+
+  <inputs>
+    <param name="input" type="data" label="Select input" />
+    <param name="column1" type="integer" value="4" label="First column number" />
+    <param name="column2" type="integer" value="10" label="Second column number" />
+  </inputs>
+  <outputs>
+    <data format="tabular" name="output" />
+    
+  </outputs>
+  <tests>
+    <!-- Test data with valid values -->
+    <test>
+      <param name="input" value="microsatcompat_in.txt"/>
+      <param name="column1" value="4"/>      
+      <param name="column2" value="10"/>
+      <output name="output" file="microsatcompat_out.txt"/>
+    </test>
+    
+  </tests>
+  <help>
+
+
+.. class:: infomark
+
+**What it does**
+
+This tool is used to select only the input lines which have compatible microsatellite motifs between two columns. Compatible here is defined as the microsatellites motif that are complementary or have the same sequence when change starting point of motif. For example, **A** is the same as **T**. Also, **AGG** is the same as **GAG**.
+
+For TRFM pipeline (profiling microsatellites in short read data), this tool can be used to make sure that the microsatellites in the reads have the same motif as the microsatellites in the reference at the corresponding mapped location. 
+
+**Citation**
+
+When you use this tool, please cite **Arkarachai Fungtammasan and Guruprasad Ananda (2014).**
+ 
+**Input**
+
+The input files can be any tab delimited file. 
+
+If this tool is used in TRFM microsatellite profiling, it should contains:
+
+- Column 1 = microsatellite location in reference chromosome
+- Column 2 = microsatellite location in reference start
+- Column 3 = microsatellite location in reference stop
+- Column 4 = microsatellite location in reference motif
+- Column 5 = microsatellite location in reference length
+- Column 6 = microsatellite location in reference motif size
+- Column 7 = length of microsatellites (bp)
+- Column 8 = length of left flanking regions (bp)
+- Column 9 = length of right flanking regions (bp)
+- Column 10 = repeat motif (bp)
+- Column 11 = hamming distance 
+- Column 12 = read name
+- Column 13 = read sequence with soft masking of microsatellites
+- Column 14 = read quality (the same Phred score scale as input)
+- Column 15 = read name (The same as column 12)
+- Column 16 = chromosome 
+- Column 17 = left flanking region start
+- Column 18 = left flanking region stop
+- Column 19 = microsatellite start as infer from pair-end
+- Column 20 = microsatellite stop as infer from pair-end
+- Column 21 = right flanking region start
+- Column 22 = right flanking region stop
+- Column 23 = microsatellite length in reference
+- Column 24 = microsatellite sequence in reference
+
+**Output**
+
+The same as input format.
+
+
+</help>
+</tool>
