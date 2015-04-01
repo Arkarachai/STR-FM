@@ -1,0 +1,764 @@
+{
+    "a_galaxy_workflow": "true", 
+    "annotation": "Profile length of microsatellites or short tandem repeats from short read data", 
+    "format-version": "0.1", 
+    "name": "microsatellite_profiling", 
+    "steps": {
+        "0": {
+            "annotation": "input raw read that you want to detect Tandem reepats (TRs)/microsatellites", 
+            "id": 0, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "input raw read that you want to detect Tandem reepats (TRs)/microsatellites", 
+                    "name": "single end fastq"
+                }
+            ], 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 200, 
+                "top": 274.765625
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"single end fastq\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "user_outputs": []
+        }, 
+        "1": {
+            "annotation": "need to be prepared by user using TR genome profiling", 
+            "id": 1, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "need to be prepared by user using TR genome profiling", 
+                    "name": "TR in genome"
+                }
+            ], 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 177, 
+                "top": 412.953125
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"TR in genome\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "user_outputs": []
+        }, 
+        "2": {
+            "annotation": "https://usegalaxy.org/u/guru%40psu.edu/h/error-rates-files", 
+            "id": 2, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "https://usegalaxy.org/u/guru%40psu.edu/h/error-rates-files", 
+                    "name": "error rate file"
+                }
+            ], 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 1412.875, 
+                "top": 384.671875
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"error rate file\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "user_outputs": []
+        }, 
+        "3": {
+            "annotation": "", 
+            "id": 3, 
+            "input_connections": {
+                "filePath": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Microsatellite detection", 
+            "outputs": [
+                {
+                    "name": "stdout", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 441.953125, 
+                "top": 252
+            }, 
+            "post_job_actions": {
+                "ChangeDatatypeActionstdout": {
+                    "action_arguments": {
+                        "newtype": "tabular"
+                    }, 
+                    "action_type": "ChangeDatatypeAction", 
+                    "output_name": "stdout"
+                }, 
+                "RenameDatasetActionstdout": {
+                    "action_arguments": {
+                        "newname": "TR in raw reads"
+                    }, 
+                    "action_type": "RenameDatasetAction", 
+                    "output_name": "stdout"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/microsatellite_ngs/microsatellite/1.0.0", 
+            "tool_state": "{\"__page__\": 0, \"flankSetting\": \"{\\\"noflankdisplay\\\": \\\"True\\\", \\\"__current_case__\\\": 1}\", \"filePath\": \"null\", \"minlength\": \"\\\"5\\\"\", \"hammingThreshold\": \"\\\"0\\\"\", \"period\": \"\\\"1\\\"\", \"surfix\": \"\\\"20\\\"\", \"prefix\": \"\\\"20\\\"\", \"__rerun_remap_job_id__\": null, \"inputFileSource\": \"{\\\"inputFileType\\\": \\\"fastq\\\", \\\"__current_case__\\\": 3}\", \"partialmotifs\": \"\\\"True\\\"\", \"multipleruns\": \"\\\"True\\\"\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "4": {
+            "annotation": "", 
+            "id": 4, 
+            "input_connections": {
+                "input": {
+                    "id": 3, 
+                    "output_name": "stdout"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Read name modifier", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 418.484375, 
+                "top": 385.03125
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/microsatellite_ngs/space2underscore_readname/1.0.0", 
+            "tool_state": "{\"__page__\": 0, \"column_n\": \"\\\"6\\\"\", \"__rerun_remap_job_id__\": null, \"input\": \"null\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "5": {
+            "annotation": "", 
+            "id": 5, 
+            "input_connections": {
+                "microsat_in_read": {
+                    "id": 4, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Fetch flanking bases", 
+            "outputs": [
+                {
+                    "name": "Leftflanking", 
+                    "type": "fastq"
+                }, 
+                {
+                    "name": "Rightflanking", 
+                    "type": "fastq"
+                }
+            ], 
+            "position": {
+                "left": 390.9375, 
+                "top": 509.046875
+            }, 
+            "post_job_actions": {
+                "ChangeDatatypeActionLeftflanking": {
+                    "action_arguments": {
+                        "newtype": "fastqsanger"
+                    }, 
+                    "action_type": "ChangeDatatypeAction", 
+                    "output_name": "Leftflanking"
+                }, 
+                "ChangeDatatypeActionRightflanking": {
+                    "action_arguments": {
+                        "newtype": "fastqsanger"
+                    }, 
+                    "action_type": "ChangeDatatypeAction", 
+                    "output_name": "Rightflanking"
+                }, 
+                "HideDatasetActionLeftflanking": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "Leftflanking"
+                }, 
+                "HideDatasetActionRightflanking": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "Rightflanking"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/microsatellite_ngs/fetchflank/1.0.0", 
+            "tool_state": "{\"qualitycutoff\": \"\\\"20\\\"\", \"lengthofbasetocheckquality\": \"\\\"20\\\"\", \"__rerun_remap_job_id__\": null, \"microsat_in_read\": \"null\", \"__page__\": 0}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "6": {
+            "annotation": "this tool has problems with parameter setting when you run it from pipeline. If you want different parameter, it's recommend that you clone pipleline and modify it.", 
+            "id": 6, 
+            "input_connections": {
+                "paired|input1": {
+                    "id": 5, 
+                    "output_name": "Leftflanking"
+                }, 
+                "paired|input2": {
+                    "id": 5, 
+                    "output_name": "Rightflanking"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Map with BWA for Illumina", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "sam"
+                }
+            ], 
+            "position": {
+                "left": 403, 
+                "top": 686
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "output"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/bwa_wrappers/bwa_wrapper/1.2.3", 
+            "tool_state": "{\"genomeSource\": \"{\\\"refGenomeSource\\\": \\\"history\\\", \\\"ownFile\\\": null, \\\"__current_case__\\\": 1}\", \"__page__\": 0, \"__rerun_remap_job_id__\": null, \"paired\": \"{\\\"input2\\\": null, \\\"sPaired\\\": \\\"paired\\\", \\\"input1\\\": null, \\\"__current_case__\\\": 1}\", \"params\": \"{\\\"outputTopN\\\": \\\"3\\\", \\\"suboptAlign\\\": \\\"\\\", \\\"gapOpenPenalty\\\": \\\"11\\\", \\\"maxGapOpens\\\": \\\"1\\\", \\\"mismatchPenalty\\\": \\\"3\\\", \\\"fracMissingAligns\\\": \\\"0.04\\\", \\\"disallowIndel\\\": \\\"5\\\", \\\"outputTopNDisc\\\": \\\"10\\\", \\\"disallowLongDel\\\": \\\"16\\\", \\\"readGroup\\\": {\\\"__current_case__\\\": 1, \\\"specReadGroup\\\": \\\"no\\\"}, \\\"maxInsertSize\\\": \\\"500\\\", \\\"__current_case__\\\": 1, \\\"maxEditDist\\\": \\\"0\\\", \\\"gapExtensPenalty\\\": \\\"4\\\", \\\"maxGapExtens\\\": \\\"-1\\\", \\\"maxEditDistSeed\\\": \\\"2\\\", \\\"noIterSearch\\\": \\\"False\\\", \\\"seed\\\": \\\"-1\\\", \\\"maxOccurPairing\\\": \\\"100000\\\", \\\"source_select\\\": \\\"full\\\"}\", \"suppressHeader\": \"\\\"False\\\"\"}", 
+            "tool_version": "1.2.3", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "7": {
+            "annotation": "", 
+            "id": 7, 
+            "input_connections": {
+                "input1": {
+                    "id": 6, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Filter SAM", 
+            "outputs": [
+                {
+                    "name": "out_file1", 
+                    "type": "sam"
+                }
+            ], 
+            "position": {
+                "left": 778, 
+                "top": 489.953125
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionout_file1": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/sam_bitwise_flag_filter/sam_bw_filter/1.0.0", 
+            "tool_state": "{\"__page__\": 0, \"__rerun_remap_job_id__\": null, \"input1\": \"null\", \"bits\": \"[{\\\"states\\\": \\\"0\\\", \\\"__index__\\\": 0, \\\"flags\\\": \\\"--0x0004\\\"}]\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "8": {
+            "annotation": "remove all mapped read with soft mask", 
+            "id": 8, 
+            "input_connections": {
+                "input": {
+                    "id": 7, 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Filter", 
+            "outputs": [
+                {
+                    "name": "out_file1", 
+                    "type": "input"
+                }
+            ], 
+            "position": {
+                "left": 781.5, 
+                "top": 602
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionout_file1": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "Filter1", 
+            "tool_state": "{\"input\": \"null\", \"__rerun_remap_job_id__\": null, \"header_lines\": \"\\\"0\\\"\", \"cond\": \"\\\"c6.count('S')==0\\\"\", \"__page__\": 0}", 
+            "tool_version": "1.1.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "9": {
+            "annotation": "", 
+            "id": 9, 
+            "input_connections": {
+                "input": {
+                    "id": 8, 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Sort", 
+            "outputs": [
+                {
+                    "name": "out_file1", 
+                    "type": "input"
+                }
+            ], 
+            "position": {
+                "left": 777.5, 
+                "top": 739
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionout_file1": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "sort1", 
+            "tool_state": "{\"__page__\": 0, \"style\": \"\\\"alpha\\\"\", \"column\": \"{\\\"__class__\\\": \\\"UnvalidatedValue\\\", \\\"value\\\": \\\"1\\\"}\", \"__rerun_remap_job_id__\": null, \"order\": \"\\\"ASC\\\"\", \"input\": \"null\", \"column_set\": \"[]\"}", 
+            "tool_version": "1.0.3", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "10": {
+            "annotation": "", 
+            "id": 10, 
+            "input_connections": {
+                "flankedbasesSAM": {
+                    "id": 9, 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Combine mapped flaked bases", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 723.328125, 
+                "top": 887.828125
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "output"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/microsatellite_ngs/PEsortedSAM2readprofile/1.0.0", 
+            "tool_state": "{\"__page__\": 0, \"__rerun_remap_job_id__\": null, \"maxoriginalreadlength\": \"\\\"101\\\"\", \"maxTRlength\": \"\\\"100\\\"\", \"flankedbasesSAM\": \"null\", \"twobitref\": \"null\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "11": {
+            "annotation": "", 
+            "id": 11, 
+            "input_connections": {
+                "input1": {
+                    "id": 4, 
+                    "output_name": "output"
+                }, 
+                "input2": {
+                    "id": 10, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Join two Datasets", 
+            "outputs": [
+                {
+                    "name": "out_file1", 
+                    "type": "input"
+                }
+            ], 
+            "position": {
+                "left": 1116.375, 
+                "top": 431.84375
+            }, 
+            "post_job_actions": {
+                "ColumnSetActionout_file1": {
+                    "action_arguments": {
+                        "chromCol": "10", 
+                        "endCol": "14", 
+                        "nameCol": "", 
+                        "startCol": "13", 
+                        "strandCol": ""
+                    }, 
+                    "action_type": "ColumnSetAction", 
+                    "output_name": "out_file1"
+                }, 
+                "HideDatasetActionout_file1": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "join1", 
+            "tool_state": "{\"input2\": \"null\", \"__page__\": 0, \"field1\": \"{\\\"__class__\\\": \\\"UnvalidatedValue\\\", \\\"value\\\": \\\"6\\\"}\", \"partial\": \"\\\"\\\"\", \"field2\": \"{\\\"__class__\\\": \\\"UnvalidatedValue\\\", \\\"value\\\": \\\"1\\\"}\", \"__rerun_remap_job_id__\": null, \"fill_empty_columns\": \"{\\\"fill_empty_columns_switch\\\": \\\"no_fill\\\", \\\"__current_case__\\\": 0}\", \"unmatched\": \"\\\"\\\"\", \"input1\": \"null\"}", 
+            "tool_version": "2.0.2", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "12": {
+            "annotation": "", 
+            "id": 12, 
+            "input_connections": {
+                "input1": {
+                    "id": 1, 
+                    "output_name": "output"
+                }, 
+                "input2": {
+                    "id": 11, 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Join", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "interval"
+                }
+            ], 
+            "position": {
+                "left": 1113.96875, 
+                "top": 560.296875
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "output"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/join/gops_join_1/1.0.0", 
+            "tool_state": "{\"input2\": \"null\", \"__page__\": 0, \"input1\": \"null\", \"min\": \"\\\"1\\\"\", \"__rerun_remap_job_id__\": null, \"fill\": \"\\\"none\\\"\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "13": {
+            "annotation": "", 
+            "id": 13, 
+            "input_connections": {
+                "input": {
+                    "id": 12, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Check microsatellites motif compatibility", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 1122.328125, 
+                "top": 710.84375
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "output"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/microsatellite_ngs/microsatcompat/1.0.0", 
+            "tool_state": "{\"__page__\": 0, \"input\": \"null\", \"__rerun_remap_job_id__\": null, \"column1\": \"\\\"4\\\"\", \"column2\": \"\\\"10\\\"\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "14": {
+            "annotation": "", 
+            "id": 14, 
+            "input_connections": {
+                "input": {
+                    "id": 13, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Select uninterrupted microsatellites", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 1131.21875, 
+                "top": 852.90625
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionoutput": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "output"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/microsatellite_ngs/microsatpurity/1.0.0", 
+            "tool_state": "{\"__page__\": 0, \"column_n\": \"\\\"0\\\"\", \"__rerun_remap_job_id__\": null, \"period\": \"\\\"1\\\"\", \"input\": \"null\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "15": {
+            "annotation": "", 
+            "id": 15, 
+            "input_connections": {
+                "input": {
+                    "id": 14, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Cut", 
+            "outputs": [
+                {
+                    "name": "out_file1", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 1161, 
+                "top": 963.953125
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionout_file1": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "Cut1", 
+            "tool_state": "{\"columnList\": \"\\\"c1,c2,c3,c4,c5,c7\\\"\", \"input\": \"null\", \"delimiter\": \"\\\"T\\\"\", \"__rerun_remap_job_id__\": null, \"__page__\": 0}", 
+            "tool_version": "1.0.2", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "16": {
+            "annotation": "", 
+            "id": 16, 
+            "input_connections": {
+                "input": {
+                    "id": 15, 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Add column", 
+            "outputs": [
+                {
+                    "name": "out_file1", 
+                    "type": "input"
+                }
+            ], 
+            "position": {
+                "left": 1168, 
+                "top": 1069.953125
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionout_file1": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "addValue", 
+            "tool_state": "{\"__page__\": 0, \"input\": \"null\", \"__rerun_remap_job_id__\": null, \"exp\": \"\\\"_\\\"\", \"iterate\": \"\\\"no\\\"\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "17": {
+            "annotation": "", 
+            "id": 17, 
+            "input_connections": {
+                "input1": {
+                    "id": 16, 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Merge Columns", 
+            "outputs": [
+                {
+                    "name": "out_file1", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 1175, 
+                "top": 1184.953125
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionout_file1": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "mergeCols1", 
+            "tool_state": "{\"__page__\": 0, \"input1\": \"null\", \"__rerun_remap_job_id__\": null, \"col2\": \"{\\\"__class__\\\": \\\"UnvalidatedValue\\\", \\\"value\\\": \\\"7\\\"}\", \"col1\": \"{\\\"__class__\\\": \\\"UnvalidatedValue\\\", \\\"value\\\": \\\"1\\\"}\", \"columns\": \"[{\\\"__index__\\\": 0, \\\"datacol\\\": {\\\"__class__\\\": \\\"UnvalidatedValue\\\", \\\"value\\\": \\\"2\\\"}}, {\\\"__index__\\\": 1, \\\"datacol\\\": {\\\"__class__\\\": \\\"UnvalidatedValue\\\", \\\"value\\\": \\\"7\\\"}}, {\\\"__index__\\\": 2, \\\"datacol\\\": {\\\"__class__\\\": \\\"UnvalidatedValue\\\", \\\"value\\\": \\\"3\\\"}}]\"}", 
+            "tool_version": "1.0.1", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "18": {
+            "annotation": "", 
+            "id": 18, 
+            "input_connections": {
+                "input1": {
+                    "id": 17, 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Group", 
+            "outputs": [
+                {
+                    "name": "out_file1", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 1175, 
+                "top": 1297.953125
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionout_file1": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "Grouping1", 
+            "tool_state": "{\"operations\": \"[{\\\"opcol\\\": {\\\"__class__\\\": \\\"UnvalidatedValue\\\", \\\"value\\\": \\\"6\\\"}, \\\"__index__\\\": 0, \\\"optype\\\": \\\"cat\\\", \\\"opround\\\": \\\"no\\\"}, {\\\"opcol\\\": {\\\"__class__\\\": \\\"UnvalidatedValue\\\", \\\"value\\\": \\\"4\\\"}, \\\"__index__\\\": 1, \\\"optype\\\": \\\"cat_uniq\\\", \\\"opround\\\": \\\"no\\\"}]\", \"__page__\": 0, \"input1\": \"null\", \"ignorelines\": \"null\", \"groupcol\": \"{\\\"__class__\\\": \\\"UnvalidatedValue\\\", \\\"value\\\": \\\"8\\\"}\", \"__rerun_remap_job_id__\": null, \"ignorecase\": \"\\\"False\\\"\"}", 
+            "tool_version": "2.1.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "19": {
+            "annotation": "", 
+            "id": 19, 
+            "input_connections": {
+                "input": {
+                    "id": 18, 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Filter", 
+            "outputs": [
+                {
+                    "name": "out_file1", 
+                    "type": "input"
+                }
+            ], 
+            "position": {
+                "left": 1186, 
+                "top": 1405.953125
+            }, 
+            "post_job_actions": {
+                "RenameDatasetActionout_file1": {
+                    "action_arguments": {
+                        "newname": "TR profile"
+                    }, 
+                    "action_type": "RenameDatasetAction", 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "Filter1", 
+            "tool_state": "{\"input\": \"null\", \"__rerun_remap_job_id__\": null, \"header_lines\": \"\\\"0\\\"\", \"cond\": \"\\\"c2.count(\\\\\\\",\\\\\\\")>=4\\\"\", \"__page__\": 0}", 
+            "tool_version": "1.1.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "20": {
+            "annotation": "", 
+            "id": 20, 
+            "input_connections": {
+                "microsat_error_profile": {
+                    "id": 2, 
+                    "output_name": "output"
+                }, 
+                "microsat_raw": {
+                    "id": 19, 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Correct genotype for microsatellite errors", 
+            "outputs": [
+                {
+                    "name": "microsat_corrected", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 1591.328125, 
+                "top": 456.8125
+            }, 
+            "post_job_actions": {
+                "RenameDatasetActionmicrosat_corrected": {
+                    "action_arguments": {
+                        "newname": "Genotype file"
+                    }, 
+                    "action_type": "RenameDatasetAction", 
+                    "output_name": "microsat_corrected"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/microsatellite_ngs/GenotypeSTR/2.0.0", 
+            "tool_state": "{\"microsat_raw\": \"null\", \"__page__\": 0, \"__rerun_remap_job_id__\": null, \"microsat_error_profile\": \"null\", \"expectedminorallele\": \"\\\"0.5\\\"\"}", 
+            "tool_version": "2.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }
+    }
+}
