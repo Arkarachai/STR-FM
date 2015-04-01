@@ -1,2 +1,2 @@
 repeat_length	read_length	informative_read_depth	=locus_specific_sequencing_depth	=genome_wide_sequencing_depth
-10	100	10	20	26
+10	100	5	10	15
