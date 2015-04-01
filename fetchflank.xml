@@ -35,7 +35,7 @@ This tool will fetch flanking regions around microsatellites, screen for quality
 - Reads that have either left or right flanking regions shorter than the length of flanking regions that require quality screening will be removed.
 
 **Citation**
-When you use this tool, please cite **Arkarachai Fungtammasan and Guruprasad Ananda (2014).**
+When you use this tool, please cite **Fungtammasan A, Ananda G, Hile SE, Su MS, Sun C, Harris R, Medvedev P, Eckert K, Makova KD. 2015. Accurate Typing of Short Tandem Repeats from Genome-wide Sequencing Data and its Applications, Genome Research**
  
 **Input**
 
