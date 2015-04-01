@@ -2,7 +2,6 @@
 import sys
 import collections, math
 import heapq
-from galaxy import eggs
 
 
     
