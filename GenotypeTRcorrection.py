@@ -204,7 +204,7 @@ for line in lines:
 ## scope filter
 
 #########################################
-######## prob calculation option ########
+######## prob calculation sector ########
 #########################################
     homozygous_collector=0
     heterozygous_collector=0
