@@ -43,7 +43,7 @@ Fungtammasan A, Ananda G, Hile SE, Su MS, Sun C, Harris R, Medvedev P, Eckert K,
 The installation process can be done as follow
 
 
-1. Install and set configuration of local Galaxy 
+1 Install and set configuration of local Galaxy 
 
 1.1 Download and install Galaxy (https://wiki.galaxyproject.org/Admin/GetGalaxy). Galaxy works on both Unix and Mac OS.
 
@@ -60,7 +60,7 @@ The installation process can be done as follow
 1.7 Refresh your browser
 
 
-2. Install tools from and str_fm and dependency tools
+2 Install tools from and str_fm and dependency tools
 
 2.1 From your local galaxy, click ‘Admin’ tab on the top.
 
@@ -77,7 +77,7 @@ The installation process can be done as follow
 2.7 Refresh your browser
 
 
-3. Install workflows
+3 Install workflows
 
 3.1 Click on the ‘Admin’ tab at the top again.
 
