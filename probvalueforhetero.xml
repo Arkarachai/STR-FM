@@ -39,14 +39,14 @@ When you use this tool, please cite **Fungtammasan A, Ananda G, Hile SE, Su MS, 
 
 The input format is the same as output from **Correct genotype for microsatellite errors** tool.
 
-- Column 1 = location of microsatellite locus. 
-- Column 2 = length profile (length of microsatellite in each read that mapped to this location in comma separated format). 
-- Column 3 = motif of microsatellite in this locus. The input file can contain more than three column. 
-- Column 4 = homozygous/heterozygous label.
-- Column 5 = log based 10 of (the probability of homozygous/the probability of heterozygous)
-- Column 6 = Allele for most probable homozygous form.
-- Column 7 = Allele 1 for most probable heterozygous form.
-- Column 8 = Allele 2 for most probable heterozygous form.
+- Column 1 = location of STR locus. 
+- Column 2 = length profile (length of STR in each read that mapped to this location in comma separated format). 
+- Column 3 = motif of STR in this locus. The input file can contain more than three column. 
+- Column 4 = homozygote/heterozygote label.
+- Column 5 = log based 10 of (the probability of homozygote/the probability of heterozygote)
+- Column 6 = Allele for most probable homozygote form.
+- Column 7 = Allele 1 for most probable heterozygote form.
+- Column 8 = Allele 2 for most probable heterozygote form.
 
 Only column 2,3,7,8 were used in calculation. 
 
