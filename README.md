@@ -7,7 +7,7 @@ We designed the STR profiling pipeline as a collection of tools which can be per
 
 Our tools in ‘str_fm’ can be used to: 
 
-*(1) profile STRs from short read data with STR-FM pipeline* (tools: ‘Microsatellite detection’, ‘Read name modifier’, ‘Fetch flanking bases’, ‘Combine mapped flanked bases’, ‘Check microsatellite motif compatibility’, ‘Select uninterrupted microsatellites’)
+**(1) profile STRs from short read data with STR-FM pipeline** (tools: ‘Microsatellite detection’, ‘Read name modifier’, ‘Fetch flanking bases’, ‘Combine mapped flanked bases’, ‘Check microsatellite motif compatibility’, ‘Select uninterrupted microsatellites’)
 
 This function needs several tools on Galaxy to complete the process. It can be customized with different mapper or STRs detection algorithm. Either single-end or paired-end sequencing data can be utilized; for paired-end read data, each read is treated separately. The core of the pipeline consists of the following three procedures 
 
