@@ -30,8 +30,8 @@
 
 **What it does**
 
-- This tool will take SAM file sorted by read name, remove unpaired reads, report microsatellites sequences in the reference genome that correspond to the space between paired end reads. Coordinate of start and stop for left and right flanking regions of microsatellites and microsatellite itself as inferred from paired end reads will also be reported.
-- These microsatellites in reference can be used to filter out reads that do not contain microsatellites that concur with microsatellites in reference where the reads mapped to.
+- This tool will take SAM file (sorted by read name), remove unpaired reads, and combine paired read data in one line tabular format. It also reports Short Tandem Repeats (STRs) sequences in the reference genome that correspond to the space between paired end reads and the coordinate of start and stop for left and right flanking regions of STRs.
+- These STRs in reference can be used to filter out reads that do not contain STRs that concur with STRs in reference where the reads mapped to.
 
 **Citation**
 
@@ -49,12 +49,12 @@ The output will combined two lines of input which are paired. The output format 
 - Column 2 = chromosome 
 - Column 3 = left flanking region start
 - Column 4 = left flanking region stop
-- Column 5 = microsatellite start
-- Column 6 = microsatellite stop
+- Column 5 = STR start
+- Column 6 = STR stop
 - Column 7 = right flanking region start
 - Column 8 = right flanking region stop
-- Column 9 = microsatellite length in reference
-- Column 10= microsatellite sequence in reference
+- Column 9 = STR length in reference
+- Column 10= STR sequence in reference
 
 
 
