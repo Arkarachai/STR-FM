@@ -30,9 +30,9 @@
 
 This tool is used to select only the uninterrupted microsatellites. Interrupted microsatellites (e.g. ATATATATAATATAT) or sequences of microsatellites with non-microsatellite parts (e.g. ATATATATATG) will be removed.
 
-For TRFM pipeline (profiling microsatellites in short read data), this tool can be used to avoid the cases that flanking bases were misread as microsatellite. Thus, the read profile will only reflect the variation of TR length from expansion/contraction.
+For STR-FM pipeline (profiling STRs in short read data), this tool can be used to avoid the cases that flanking bases were misread as microsatellite. Thus, the read profile will only reflect the variation of TR length from expansion/contraction.
 For example, suppose that the sequence around microsatellite is AGCGACGaaaaaaGCGATCA. If we observe read with sequence AGCGACGaaaaaaaaaaGCGATCA, we can indicate that this is microsatellite expansion. However, if we observe AGCGACGaaaaaaaCGATCA, this is more like a substitution of G to A. These incidents can be removed with this tool.
-You can use the tool **combine mapped flaked bases** to get the microsatellites in reference that correspond to sequence between mapped reads. If the user map these reads around the uninterrupted microsatelites in reference, the corresponding sequences between these pairs should be the uninterrupted microsatellites regardless of expansion/contraction of microsatellites in short read data. However, if the substitution of flanking base or if the fluorescent signal from the previous run make it look like substitution, the corresponding sequences in reference in between the pairs will not be uninterrupted microsatellites. Thus this tool can remove those cases and keep only microsatellite expansion/contraction.
+You can use the tool **combine mapped flaked bases** to get the STRs in reference that correspond to sequence between mapped reads. If the user map these reads around the uninterrupted microsatelites in reference, the corresponding sequences between these pairs should be the uninterrupted microsatellites regardless of expansion/contraction of microsatellites in short read data. However, if the substitution of flanking base or if the fluorescent signal from the previous run make it look like substitution, the corresponding sequences in reference in between the pairs will not be uninterrupted microsatellites. Thus this tool can remove those cases and keep only microsatellite expansion/contraction.
 
 
 **Citation**
@@ -43,17 +43,17 @@ When you use this tool, please cite **Fungtammasan A, Ananda G, Hile SE, Su MS, 
 
 The input files can be any tab delimited file. 
 
-If this tool is used in TRFM microsatellite profiling, it should contains:
+If this tool is used in STR-FM microsatellite profiling, it should contains:
 
-- Column 1 = microsatellite location in reference chromosome
-- Column 2 = microsatellite location in reference start
-- Column 3 = microsatellite location in reference stop
-- Column 4 = microsatellite location in reference motif
-- Column 5 = microsatellite location in reference length
-- Column 6 = microsatellite location in reference motif size
-- Column 7 = length of microsatellites (bp)
-- Column 8 = length of left flanking regions (bp)
-- Column 9 = length of right flanking regions (bp)
+- Column 1 = STR location in reference chromosome
+- Column 2 = STR location in reference start
+- Column 3 = STR location in reference stop
+- Column 4 = STR location in reference motif
+- Column 5 = STR location in reference length
+- Column 6 = STR location in reference motif size
+- Column 7 = length of STR (bp)
+- Column 8 = length of left flanking region (bp)
+- Column 9 = length of right flanking region (bp)
 - Column 10 = repeat motif (bp)
 - Column 11 = hamming distance 
 - Column 12 = read name
@@ -63,12 +63,12 @@ If this tool is used in TRFM microsatellite profiling, it should contains:
 - Column 16 = chromosome 
 - Column 17 = left flanking region start
 - Column 18 = left flanking region stop
-- Column 19 = microsatellite start as infer from pair-end
-- Column 20 = microsatellite stop as infer from pair-end
+- Column 19 = STR start as infer from pair-end
+- Column 20 = STR stop as infer from pair-end
 - Column 21 = right flanking region start
 - Column 22 = right flanking region stop
-- Column 23 = microsatellite length in reference
-- Column 24 = microsatellite sequence in reference
+- Column 23 = STR length in reference
+- Column 24 = STR sequence in reference
 
 **Output**
 
