@@ -30,8 +30,8 @@
 
 - This tool will correct for STR sequencing and library preparation errors using error rates estimated from hemizygous male X chromosome (https://usegalaxy.org/u/guru%40psu.edu/h/error-rates-files)or any rates provided by user. The read profile for each locus will be processed independently. 
 - First, this tool will find three most common read lengths from input read length profile. If the read profile has only one length of STR, the length of one motif longer than the observed length will be used as the second most common read length. 
-- Second, it will calculate probability of three forms of homozygous and use the form which give the highest probability. The same goes for heterozygous. 
-- Third, this tools will calculate log based 10 of (the probability of homozygous/the probability of heterozygous). If this value is more than 0, it will predict this locus to be homozygous. If this value is less than 0, it will predict this locus to be heterozygous. If this value is 0, read profile at this locus will be discard. 
+- Second, it will calculate probability of three forms of homozygote and use the form which give the highest probability. The same goes for heterozygote. 
+- Third, this tools will calculate log based 10 of (the probability of homozygote/the probability of heterozygote). If this value is more than 0, it will predict this locus to be homozygote. If this value is less than 0, it will predict this locus to be heterozygote. If this value is 0, read profile at this locus will be discard. 
 
 **Citation**
 
@@ -48,11 +48,11 @@ When you use this tool, please cite **Fungtammasan A, Ananda G, Hile SE, Su MS, 
 
 The output will be contain original three (or more) columns as the input. However, it will also have these following columns. 
 
-- Additional column 1 = homozygous/heterozygous label.
-- Additional column 2 = log based 10 of (the probability of homozygous/the probability of heterozygous)
-- Additional column 3 = Allele for most probable homozygous form.
-- Additional column 4 = Allele 1 for most probable heterozygous form.
-- Additional column 5 = Allele 2 for most probable heterozygous form.
+- Additional column 1 = homozygote/heterozygote label.
+- Additional column 2 = log based 10 of (the probability of homozygote/the probability of heterozygote)
+- Additional column 3 = Allele for most probable homozygote form.
+- Additional column 4 = Allele 1 for most probable heterozygote form.
+- Additional column 5 = Allele 2 for most probable heterozygote form.
 
 **Example**
 
