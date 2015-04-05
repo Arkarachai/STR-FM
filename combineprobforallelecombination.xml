@@ -24,7 +24,7 @@
 
 **What it does**
 
-- This tool will combine probability that the allele combination can generated any read profile in the input. This is the last step to calculate probability to detect heterozygous for each allele combination and each depth.
+- This tool will combine probability that the allele combination can generated any read profile in the input. This is the last step to calculate probability to detect heterozygote for each allele combination and each depth.
 
 **Citation**
 
@@ -34,30 +34,30 @@ When you use this tool, please cite **Fungtammasan A, Ananda G, Hile SE, Su MS, 
 
 The input format is the same as output from **Evaluate the probability of the allele combination to generate read profile** tool.
 
-- Column 1 = location of microsatellite locus. 
-- Column 2 = length profile (length of microsatellite in each read that mapped to this location in comma separated format). 
-- Column 3 = motif of microsatellite in this locus. The input file can contain more than three column. 
-- Column 4 = homozygous/heterozygous label.
-- Column 5 = log based 10 of (the probability of homozygous/the probability of heterozygous)
-- Column 6 = Allele for most probable homozygous form.
-- Column 7 = Allele 1 for most probable heterozygous form.
-- Column 8 = Allele 2 for most probable heterozygous form.
+- Column 1 = location of STR locus. 
+- Column 2 = length profile (length of STR in each read that mapped to this location in comma separated format). 
+- Column 3 = motif of STR in this locus. The input file can contain more than three column. 
+- Column 4 = homozygote/heterozygote label.
+- Column 5 = log based 10 of (the probability of homozygote/the probability of heterozygote)
+- Column 6 = Allele for most probable homozygote form.
+- Column 7 = Allele 1 for most probable heterozygote form.
+- Column 8 = Allele 2 for most probable heterozygote form.
 - Column 9 = Probability of the allele combination to generate given read profile.
 - Column 10 = Number of possible rearrangement of given read profile.
 - Column 11 = Probability of the allele combination to generate read profile with any rearrangement (Product of column 9 and column 10)
 - Column 12 = Read depth
 
-Only column 2,3,4,7,8,11 were used in calculation. 
+Only columns 2,3,4,7,8,11 were used in calculation. 
 
 **Output**
 
 
-The output will contain the following header and column
+The output will contain the following header and columns
  
 - Line 1 header: read_depth	allele	heterozygous_prob	motif
 - Column 1 = read depth
 - Column 2 = allele combination
-- Column 3 = probability to detect heterozygous of that allele combination
+- Column 3 = probability to detect heterozygote of that allele combination
 - Column 4 = motif
 
 
