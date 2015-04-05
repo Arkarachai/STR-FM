@@ -40,7 +40,8 @@ Fungtammasan A, Ananda G, Hile SE, Su MS, Sun C, Harris R, Medvedev P, Eckert K,
 ## Installation of STR-FM tools from toolshed
 
 
-The installation process can be done as follow:
+The installation process can be done as follow
+
 
 1. Install and set configuration of local Galaxy 
 
