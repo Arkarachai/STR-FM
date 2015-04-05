@@ -43,7 +43,7 @@ When you use this tool, please cite **Fungtammasan A, Ananda G, Hile SE, Su MS, 
 
 The input files can be any tab delimited file. 
 
-If this tool is used in STR-FM microsatellite profiling, it should contains:
+If this tool is used in STR-FM for STRs profiling, it should contains:
 
 - Column 1 = STR location in reference chromosome
 - Column 2 = STR location in reference start
