@@ -32,7 +32,7 @@
 
 **What it does**
 
-This tool is used to convert informative read depth (specified by user) to sequencing depth when the microsatellites is mapped using TRFM pipeline.
+This tool is used to convert informative read depth (specified by user) to sequencing depth when the STRs is mapped using STR-FM pipeline.
 The locus specific sequencing depth is the sequencing depth that will make a certain loci have certain read depth based on uniform mapped of read. It is calculated as: ::
 
 	yrequired = ( X * L ) / (L - (2F+r-1))
