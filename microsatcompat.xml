@@ -40,17 +40,17 @@ When you use this tool, please cite **Fungtammasan A, Ananda G, Hile SE, Su MS, 
 
 The input files can be any tab delimited file. 
 
-If this tool is used in TRFM microsatellite profiling, it should contains:
+If this tool is used in STR-FM microsatellite profiling, it should contains:
 
-- Column 1 = microsatellite location in reference chromosome
-- Column 2 = microsatellite location in reference start
-- Column 3 = microsatellite location in reference stop
-- Column 4 = microsatellite location in reference motif
-- Column 5 = microsatellite location in reference length
-- Column 6 = microsatellite location in reference motif size
-- Column 7 = length of microsatellites (bp)
-- Column 8 = length of left flanking regions (bp)
-- Column 9 = length of right flanking regions (bp)
+- Column 1 = STR location in reference chromosome
+- Column 2 = STR location in reference start
+- Column 3 = STR location in reference stop
+- Column 4 = STR location in reference motif
+- Column 5 = STR location in reference length
+- Column 6 = STR location in reference motif size
+- Column 7 = length of STR (bp)
+- Column 8 = length of left flanking region (bp)
+- Column 9 = length of right flanking region (bp)
 - Column 10 = repeat motif (bp)
 - Column 11 = hamming distance 
 - Column 12 = read name
@@ -60,12 +60,12 @@ If this tool is used in TRFM microsatellite profiling, it should contains:
 - Column 16 = chromosome 
 - Column 17 = left flanking region start
 - Column 18 = left flanking region stop
-- Column 19 = microsatellite start as infer from pair-end
-- Column 20 = microsatellite stop as infer from pair-end
+- Column 19 = STR start as infer from pair-end
+- Column 20 = STR stop as infer from pair-end
 - Column 21 = right flanking region start
 - Column 22 = right flanking region stop
-- Column 23 = microsatellite length in reference
-- Column 24 = microsatellite sequence in reference
+- Column 23 = STR length in reference
+- Column 24 = STR sequence in reference
 
 **Output**
 
