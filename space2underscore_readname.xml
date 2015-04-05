@@ -26,7 +26,7 @@
 
 **What it does**
 
-This tool is used to change space to underscore. For TRFM pipeline (profiling microsatellites in short read data), this tool is used to change space in read name to underscore to prevent the downstream tools which might recognize incorrect column number due to space in read name. If the input do not have space in read name, this step can be skipped.
+This tool is used to change space to underscore. For STR-FM pipeline (profiling STRs in short read data), this tool is used to change space in read name to underscore to prevent the downstream tools which might recognize incorrect column number due to space in read name. If the input do not have space in read name, this step can be skipped.
 
 **Citation**
 
@@ -36,7 +36,7 @@ When you use this tool, please cite **Fungtammasan A, Ananda G, Hile SE, Su MS, 
 
 The input files can be any tab delimited file. 
 
-If this tool is used in TRFM microsatellite profiling, it should be in the same format as output from **microsatellite detection program**. This format contains **length of repeat**, **length of left flanking region**, **length of right flanking region**, **repeat motif**, **hamming (editing) distance**, **read name**, **read sequence**, **read quality score**
+If this tool is used in STR-FM: STRs profiling, it should be in the same format as output from **microsatellite detection program**. This format contains **length of repeat**, **length of left flanking region**, **length of right flanking region**, **repeat motif**, **hamming (editing) distance**, **read name**, **read sequence**, **read quality score**
 
 **Output**
 
