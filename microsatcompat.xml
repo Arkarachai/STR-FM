@@ -28,9 +28,9 @@
 
 **What it does**
 
-This tool is used to select only the input lines which have compatible microsatellite motifs between two columns. Compatible here is defined as the microsatellites motif that are complementary or have the same sequence when change starting point of motif. For example, **A** is the same as **T**. Also, **AGG** is the same as **GAG**.
+This tool is used to select only the input lines which have compatible STR motifs between two columns. Compatible here is defined as the STR motif that are complementary or have the same sequence when change starting point of motif. For example, **A** is the same as **T**. Also, **AGG** is the same as **GAG**.
 
-For TRFM pipeline (profiling microsatellites in short read data), this tool can be used to make sure that the microsatellites in the reads have the same motif as the microsatellites in the reference at the corresponding mapped location. 
+For STR-FM pipeline (profiling STRs in short read data), this tool can be used to make sure that the STRs in the reads have the same motif as the STRs in the reference at the corresponding mapped location. 
 
 **Citation**
 
@@ -40,7 +40,7 @@ When you use this tool, please cite **Fungtammasan A, Ananda G, Hile SE, Su MS, 
 
 The input files can be any tab delimited file. 
 
-If this tool is used in STR-FM microsatellite profiling, it should contains:
+If this tool is used in STR-FM pipeline for STRs profiling, it should contains:
 
 - Column 1 = STR location in reference chromosome
 - Column 2 = STR location in reference start
