@@ -108,8 +108,8 @@
 
 **What it does**
 
-We use different algorithms to detect microsatellites depend on hamming distance parameter. 
-If hamming distance is set to zero, the program will only concern about uninterrupted microsatellites. The process works as follows.
+We use different algorithms to detect STRs depend on hamming distance parameter. 
+If hamming distance is set to zero, the program will only concern about uninterrupted STRs. The process works as follows.
 
 1) Scanning reads using sliding windows. For a given repeat period ‘k’ (e.g. k=2 for dinucleotide TRs), we compared consecutive k-mer window size sequences, with a step size of k. If a base at a given position matches one k positions earlier it was marked with a plus, if corresponding sites had different bases it was marked with a minus. The first k position is blank.
 
@@ -117,15 +117,15 @@ If hamming distance is set to zero, the program will only concern about uninterr
 
 3) Report k-mer TRs if the length is larger than a threshold provided by the user.
 
-If hamming distance is set to integer more than zero, the program will concern both uninterrupted and interrupted microsatellites. The process works as follows:
+If hamming distance is set to integer more than zero, the program will concern both uninterrupted and interrupted STRs. The process works as follows:
 
-(1) Identify intervals that are highly correlated with the interval shifted by ‘k’ (the repeat period).  These intervals are called "runs" or "candidates". The allowed level of correlation is 6/7. Depending on whether we want to look for more than one microsat, we either find the longest such run (simple algorithm) or many runs (more complicated algorithm). The following steps are then performed on each run.
+(1) Identify intervals that are highly correlated with the interval shifted by ‘k’ (the repeat period).  These intervals are called "runs" or "candidates". The allowed level of correlation is 6/7. Depending on whether we want to look for more than one STR, we either find the longest such run (simple algorithm) or many runs (more complicated algorithm). The following steps are then performed on each run.
 
 (2) Find the most likely repeat motif in the run.  This is done by counting all kmers (of length P) and choosing the most frequent.  If that kmer is itself covered by a sub-repeat we discard this run.  The idea is that we can ignore a 6-mer like ACGACG because we will find it when we are looking for 3-mers.
 
 (3) Once we identify the most likely repeat motif, we then modify the interval, adjusting start and end to find the interval that has the fewest mismatches vs. a sequence of the motif repeated (hamming distance). 
 
-(4) At this point we have a valid microsat interval (in the eyes of the program). It is subjected to some filtering stages (hamming distance or too close to an end), and if it satisfies those conditions, it's reported to the user
+(4) At this point we have a valid STR interval (in the eyes of the program). It is subjected to some filtering stages (hamming distance or too close to an end), and if it satisfies those conditions, it's reported to the user
     
 For more option, the script to run this program can be downloaded and run with python independently from Galaxy. There are more option for the script mode. Help page is build-in inside the script.
 
@@ -142,37 +142,37 @@ This tool is developed by Chen Sun (cxs1031@cse.psu.edu) and Bob Harris (rsharri
 
 For fastq, the output will contain the following columns:
 
-- Column 1 = length of microsatellites (bp)
+- Column 1 = length of STRs (bp)
 - Column 2 = length of left flanking regions (bp)
 - Column 3 = length of right flanking regions (bp)
 - Column 4 = repeat motif (bp)
 - Column 5 = hamming distance 
 - Column 6 = read name
-- Column 7 = read sequence with soft masking of microsatellites
+- Column 7 = read sequence with soft masking of STRs
 - Column 8 = read quality (the same Phred score scale as input)
 
 For fasta, fastq without quality score and sam format, column 8 will be replaced with dot(.).
 
-If the users have mapped file (SAM) and would like to profile microsatellites from premapped data instead of using flank-based mapping approach, they can select SAM format input and specify that they want correspond microsatellites in reference for comparison. The output will be as follow:
+If the users have mapped file (SAM) and would like to profile STRs from premapped data instead of using flank-based mapping approach, they can select SAM format input and specify that they want correspond STRs in reference for comparison. The output will be as follow:
 
-- Column 1 = length of microsatellites (bp)
+- Column 1 = length of STR (bp)
 - Column 2 = length of left flanking regions (bp)
 - Column 3 = length of right flanking regions (bp)
 - Column 4 = repeat motif (bp)
 - Column 5 = hamming distance 
 - Column 6 = read name
-- Column 7 = read sequence with soft masking of microsatellites
+- Column 7 = read sequence with soft masking of STR
 - Column 8 = read quality (the same Phred score scale as input)
 - Column 9 = read name (The same as column 6)
 - Column 10 = chromosome 
 - Column 11 = left flanking region start
 - Column 12 = left flanking region stop
-- Column 13 = microsatellite start as infer from pair-end
-- Column 14 = microsatellite stop as infer from pair-end
+- Column 13 = STR start as infer from pair-end
+- Column 14 = STR stop as infer from pair-end
 - Column 15 = right flanking region start
 - Column 16 = right flanking region stop
-- Column 17 = microsatellite length in reference
-- Column 18 = microsatellite sequence in reference
+- Column 17 = STR length in reference
+- Column 18 = STR sequence in reference
 
 </help>
 </tool>
