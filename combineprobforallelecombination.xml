@@ -36,7 +36,7 @@ The input format is the same as output from **Evaluate the probability of the al
 
 - Column 1 = location of STR locus. 
 - Column 2 = length profile (length of STR in each read that mapped to this location in comma separated format). 
-- Column 3 = motif of STR in this locus. The input file can contain more than three column. 
+- Column 3 = motif of STR in this locus. The input file can contain more than three columns. 
 - Column 4 = homozygote/heterozygote label.
 - Column 5 = log based 10 of (the probability of homozygote/the probability of heterozygote)
 - Column 6 = Allele for most probable homozygote form.
