@@ -142,13 +142,13 @@ This tool is developed by Chen Sun (cxs1031@cse.psu.edu) and Bob Harris (rsharri
 
 For fastq, the output will contain the following columns:
 
-- Column 1 = length of STRs (bp)
-- Column 2 = length of left flanking regions (bp)
-- Column 3 = length of right flanking regions (bp)
+- Column 1 = length of STR (bp)
+- Column 2 = length of left flanking region (bp)
+- Column 3 = length of right flanking region (bp)
 - Column 4 = repeat motif (bp)
 - Column 5 = hamming distance 
 - Column 6 = read name
-- Column 7 = read sequence with soft masking of STRs
+- Column 7 = read sequence with soft masking of STR
 - Column 8 = read quality (the same Phred score scale as input)
 
 For fasta, fastq without quality score and sam format, column 8 will be replaced with dot(.).
@@ -156,8 +156,8 @@ For fasta, fastq without quality score and sam format, column 8 will be replaced
 If the users have mapped file (SAM) and would like to profile STRs from premapped data instead of using flank-based mapping approach, they can select SAM format input and specify that they want correspond STRs in reference for comparison. The output will be as follow:
 
 - Column 1 = length of STR (bp)
-- Column 2 = length of left flanking regions (bp)
-- Column 3 = length of right flanking regions (bp)
+- Column 2 = length of left flanking region (bp)
+- Column 3 = length of right flanking region (bp)
 - Column 4 = repeat motif (bp)
 - Column 5 = hamming distance 
 - Column 6 = read name
