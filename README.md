@@ -17,12 +17,15 @@ Second, these are mapped to the reference genome using a standard paired-end rea
 
 Finally, STR-FM runs a profiler tool, which groups all reads with STRs that are mapped to the same location in the reference genome. As a result, an array of all STR lengths from the reads mapping to a particular STR-containing locus is generated.
 
-
 **(2) genotype STRs with error correction** (tool ‘Correct genotype for microsatellite errors’)
 
-(3) estimate the minimum informative read depth from error rates (tools: ‘Generate all possible combination of read profile’, ‘Evaluate the probability of the allele combination to generate read profile’, ‘Combine the probability to generate read profile’)
+This pipeline needs only one of our tools to complete process. It will take STR-profile file and sequencine error rates file as inputs. The program will calculate the maximum likelihood of genotype for each STR locus in STR-profile file. Then it will report the mostly likely genotype and the log odds ratio between their probabilities, which can be interpreted as a confidence of genotyping (the more this value deviates from 0, the more confidence we have in this genotype).
 
-(4) convert informative read depth to locus-specific and genome-wide sequencing depth (tool ‘Convert informative read depth to sequencing depth’).  
+**(3) estimate the minimum informative read depth from error rates** (tools: ‘Generate all possible combination of read profile’, ‘Evaluate the probability of the allele combination to generate read profile’, ‘Combine the probability to generate read profile’)
+
+
+**(4) convert informative read depth to locus-specific and genome-wide sequencing depth** (tool ‘Convert informative read depth to sequencing depth’).  
+
 
 ## Tools description
 
