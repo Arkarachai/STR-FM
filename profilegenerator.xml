@@ -30,9 +30,9 @@
 
 **What it does**
 
-This tool will generate all possible combination of observed read profile of the consecutive alleles from given error profile. The range of observed read length can be filtered to contain only those that are frequently occur using "Minimum error rate to be considered" parameter.
+This tool will generate all possible combination of observed read profiles of the consecutive alleles from given error profile. The range of observed read lengths can be filtered to contain only those that are frequently occur using "Minimum error rate to be considered" parameter.
 
-This problem will collect the lists of valid (pass "Minimum error rate to be considered" threshold) observed length profiles from combination of consecutive allele lengths. The lists that are equivalent or the subset of the other lists will be removed. For each depth and each list, length profile were generated from combination with replacement which compatible with python 2.7. There could be redundant error profiles generated from different lists if more than one combination of allele is generated due to overlap range of observed microsatellite lengths. The user need to remove them which can be done easily using **sort | uniq** command in unix.
+This program will collect the lists of valid (pass "Minimum error rate to be considered" threshold) observed length profiles from combination of consecutive allele lengths. The lists that are equivalent or the subset of the other lists will be removed. For each depth and each list, length profile were generated from combination with replacement which compatible with python 2.7. There could be redundant error profiles generated from different lists if more than one combination of allele is generated due to overlap range of observed microsatellite lengths. The user need to remove them which can be done easily using **sort | uniq** command in unix.
 
 
 **Citation**
@@ -42,15 +42,15 @@ When you use this tool, please cite **Fungtammasan A, Ananda G, Hile SE, Su MS, 
 **Input**
 
 - The error profile needs to contain these three columns. 
-- Column 1 = Correct microsatellite length 
-- Column 2 = Observed microsatellite length 
+- Column 1 = Correct STR length 
+- Column 2 = Observed STR length 
 - Column 3 = Number of observation
 
 **Output**
 
-- Column 1 = Place holder for location of microsatellite locus. (just "chr")
-- Column 2 = length profile (length of microsatellite in each read that mapped to this location in comma separated format). 
-- Column 3 = motif of microsatellite in this locus. 
+- Column 1 = Place holder for location of STR locus. (just "chr")
+- Column 2 = length profile (length of STR in each read that mapped to this location in comma separated format). 
+- Column 3 = motif of STR in this locus. 
  
 **Example**
 
