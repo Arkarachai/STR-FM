@@ -29,9 +29,9 @@
 **What it does**
 
 - This tool will correct for microsatellite sequencing and library preparation errors using error rates estimated from hemizygous male X chromosome or any rates provided by user. The read profile for each locus will be processed independently. 
-- First, this tool will find three most common read lengths from input read length profile. If the read profile has only one length of TR, the length of one motif longer than the observed length will be used as the second most common read length. 
+- First, this tool will find three most common read lengths from input read length profile. If the read profile has only one length of STR, the length of one motif longer than the observed length will be used as the second most common read length. 
 - Second, it will calculate probability of three forms of homozygous and use the form which give the highest probability. The same goes for heterozygous. 
-- Third, this tools will calculate log based 10 of (the probability of homozygous/the probability of heterozygous). If this value is more than 0, it will predict this locus to homozygous. If this value is less than 0, it will predict this locus to heterozygous. If this value is 0, read profile at this locus will be discard. 
+- Third, this tools will calculate log based 10 of (the probability of homozygous/the probability of heterozygous). If this value is more than 0, it will predict this locus to be homozygous. If this value is less than 0, it will predict this locus to be heterozygous. If this value is 0, read profile at this locus will be discard. 
 
 **Citation**
 
@@ -42,11 +42,11 @@ When you use this tool, please cite **Fungtammasan A, Ananda G, Hile SE, Su MS, 
 - The input files need to contain at least three columns. 
 - Column 1 = location of microsatellite locus. 
 - Column 2 = length profile (length of microsatellite in each read that mapped to this location in comma separated format). 
-- Column 3 = motif of microsatellite in this locus. The input file can contain more than three column. 
+- Column 3 = motif of microsatellite in this locus. The input file can contain more than three columns. 
 
 **Output**
 
-The output will be contain original three (or more) column as the input. However, it will also have these following columns. 
+The output will be contain original three (or more) columns as the input. However, it will also have these following columns. 
 
 - Additional column 1 = homozygous/heterozygous label.
 - Additional column 2 = log based 10 of (the probability of homozygous/the probability of heterozygous)
@@ -60,7 +60,7 @@ The output will be contain original three (or more) column as the input. However
 
 	chr1_100_106	5, 6, 6, 6, 6, 7, 7, 8, 8	A
 	
-- We want to figure out if this locus is a homolozygous or heterozygous and the corresponding allele(s). Therefore, we use this tool to refine genotype.
+- We want to figure out if this locus is a homolozygote or heterozygote and the corresponding allele(s). Therefore, we use this tool to refine genotype.
 - This tool will calculate the probability of homozygous A6A6, A7A7, and A8A8 to generate observed length profile. Among this A7A7 has the highest probability. Therefore, we use this form as the representative for homozygous.
 - Then, this tool will calculate the probability of heterozygous A6A7, A7A8, and A6A8 to generate observed length profile. Among this A6A8 has the highest probability. Therefore, we use this form as the representative for heterozygous.    
 - The A6A7 has higher probability than A7A7. Therefore, the program will report that this locus is a heterozygous locus. ::
