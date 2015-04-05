@@ -7,6 +7,7 @@ We designed the STR profiling pipeline as a collection of tools which can be per
 
 Our tools in ‘str_fm’ can be used to: 
 (1) profile STRs from short read data with STR-FM pipeline (tools: ‘Microsatellite detection’, ‘Read name modifier’, ‘Fetch flanking bases’, ‘Combine mapped flanked bases’, ‘Check microsatellite motif compatibility’, ‘Select uninterrupted microsatellites’)
+
 This function needs several tools on Galaxy to complete the process. It can be customized with different mapper or STRs detection algorithm. Either single-end or paired-end sequencing data can be utilized; for paired-end read data, each read is treated separately. The core of the pipeline consists of the following three procedures 
 First, STR-FM runs a short-read STR detection tool using a string comparison algorithm (see publication details). The algorithm can detect exact (pure, or uninterrupted) STRs (mono- through hexanucleotide STRs greater than or equal to two repeats), incomplete motifs (e.g., ATATATA), interrupted STRs (e.g., AAAATAAAAA), or multiple STRs in a read. Reads that do not have sufficient upstream or downstream sequences flanking the STRs are discarded (we used a threshold of 20 bp on each side of an STR). Next, each read is split into two “pseudoreads,” containing the upstream and downstream flanks surrounding the STR. These are mapped to the reference genome using a standard paired-end read-mapping algorithm, e.g., BWA (Li and Durbin
 
@@ -41,26 +42,45 @@ Fungtammasan A, Ananda G, Hile SE, Su MS, Sun C, Harris R, Medvedev P, Eckert K,
 
 The installation process can be done as follow:
 1. Install and set configuration of local Galaxy 
+
 1.1 Download and install Galaxy (https://wiki.galaxyproject.org/Admin/GetGalaxy). Galaxy works on both Unix and Mac OS.
+
 1.2 From your Galaxy directory, add your E-mail as admin E-mail to the Galaxy configuration file. Depending on the Galaxy version, this file can be either universe_wsgi.ini or config/galaxy.ini (https://wiki.galaxyproject.org/Admin/Interface)
+
 1.3 Set directory for tool dependencies (step 2 in https://wiki.galaxyproject.org/Admin/Tools/AddToolFromToolShedTutorial). 
+
 1.4 Run local Galaxy from the command line by running ‘sh run.sh’ from your Galaxy directory. 
+
 1.5 Open your Galaxy from your browser at address http://localhost:8080 (https://wiki.galaxyproject.org/Admin/GetGalaxy)
+
 1.6 Register using your admin E-mail in the ‘User’ tab on the top.
+
 1.7 Refresh your browser
 
 2. Install tools from and str_fm and dependency tools
+
 2.1 From your local galaxy, click ‘Admin’ tab on the top.
+
 2.2 On the left panel, click ‘Search and browse tool sheds’ under ‘Tool sheds’. ‘Accessible Galaxy tool sheds’ will appear on main panel.
+
 2.3 Click on ‘Galaxy main tool shed’ and select ‘Browse valid repositories’. (https://wiki.galaxyproject.org/Admin/Tools/AddToolFromToolShedTutorial)
+
 2.4 Type ‘str_fm in search box and click enter.
+
 2.5 The ‘suite_str_fm_0_1’ repository that has ‘arkarachai-fungtammasan’ as the owner will appear. The user may click on this repository name and click ‘Preview and install’. The ‘Install to Galaxy’ button will appear on upper right corner. This button allows the user to install all our tools and workflows -- pipelines containing tools for specific purpose such as STR profiling from short read sequencing data, microsatellite detection of the reference genome, and estimating minimum informative read depth. None of our tools have any dependencies. However, some of the other tools that used in our workflows (e.g. SAM flag filter, unique element selection, etc.) are not included in the standard Galaxy installation. For the user’s convenience, we included all dependency tools for the workflows in this repository. Therefore, installing ‘suite_str_fm_0_1’ will be sufficient to operate all workflows we provided. 
+
 2.6 After clicking on ‘Install to Galaxy’ and ‘Install’ button in confirmation page, all our tools, workflows, and test datasets will be downloaded to your local Galaxy. After the download is completed, all our tools will be available on your local Galaxy. If the user wants to use the workflows that we suggested (i.e. STR profiling from short read sequencing data, microsatellite detection of the reference genome, and estimating minimum informative read depth), please proceed to step 3.
+
 2.7 Refresh your browser
 
 3. Install workflows
+
 3.1 Click on the ‘Admin’ tab at the top again.
+
 3.2 On the right panel, click ‘Manage installed tool shed repositories’ under ‘Server’. ‘Installed tool shed repositories’ will appear on main panel.
+
 3.3 Click to open ‘str_fm’ repository. 
+
 3.4 Scroll down to ‘Workflows’ section and select the workflow that you want to install. The SGV graphic of the workflow will appear.
+
 3.5 Click on the ‘Repository Actions’ on the upper right corner and select ‘Import workflow to Galaxy’. If success, the ‘Workflow <workflow name> imported successfully’ will appear. Once the workflow is imported to your Galaxy, you can view and modify it from ‘Workflow’ tab on the top. 
