@@ -29,7 +29,7 @@
 
 **What it does**
 
-This tool will fetch flanking regions around microsatellites, screen for quality score at microsatellites and adjacent flanking regions, and output two fastq files containing flanking regions in forward-forward direction.
+This tool will fetch flanking regions around STRs, screen for quality score at STRs and adjacent flanking regions, and output two fastq files containing flanking regions in forward-forward direction.
 
 - This tool assumes that the quality score is Phred+33, such as Sanger fastq.
 - Reads that have either left or right flanking regions shorter than the length of flanking regions that require quality screening will be removed.
@@ -39,7 +39,7 @@ When you use this tool, please cite **Fungtammasan A, Ananda G, Hile SE, Su MS, 
  
 **Input**
 
-The input files need to be in the same format as output from **microsatellite detection program**. This format contains **length of repeat**, **length of left flanking region**, **length of right flanking region**, **repeat motif**, **hamming (editing) distance**, **read name**, **read sequence**, **read quality score**
+The input file needs to be in the same format as output from **microsatellite detection program**. This format contains **length of repeat**, **length of left flanking region**, **length of right flanking region**, **repeat motif**, **hamming (editing) distance**, **read name**, **read sequence**, **read quality score**
 
 **Output**
 
