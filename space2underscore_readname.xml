@@ -36,7 +36,7 @@ When you use this tool, please cite **Fungtammasan A, Ananda G, Hile SE, Su MS, 
 
 The input files can be any tab delimited file. 
 
-If this tool is used in STR-FM: STRs profiling, it should be in the same format as output from **microsatellite detection program**. This format contains **length of repeat**, **length of left flanking region**, **length of right flanking region**, **repeat motif**, **hamming (editing) distance**, **read name**, **read sequence**, **read quality score**
+If this tool is used in STR-FM for STRs profiling, it should be in the same format as output from **microsatellite detection program**. This format contains **length of repeat**, **length of left flanking region**, **length of right flanking region**, **repeat motif**, **hamming (editing) distance**, **read name**, **read sequence**, **read quality score**
 
 **Output**
 
