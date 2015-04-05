@@ -11,9 +11,14 @@ Our tools in ‘str_fm’ can be used to:
 
 This function needs several tools on Galaxy to complete the process. It can be customized with different mapper or STRs detection algorithm. Either single-end or paired-end sequencing data can be utilized; for paired-end read data, each read is treated separately. The core of the pipeline consists of the following three procedures 
 
-First, STR-FM runs a short-read STR detection tool using a string comparison algorithm (see publication details). The algorithm can detect exact (pure, or uninterrupted) STRs (mono- through hexanucleotide STRs greater than or equal to two repeats), incomplete motifs (e.g., ATATATA), interrupted STRs (e.g., AAAATAAAAA), or multiple STRs in a read. Reads that do not have sufficient upstream or downstream sequences flanking the STRs are discarded (we used a threshold of 20 bp on each side of an STR). Next, each read is split into two “pseudoreads,” containing the upstream and downstream flanks surrounding the STR. These are mapped to the reference genome using a standard paired-end read-mapping algorithm, e.g., BWA (Li and Durbin
+First, STR-FM runs a short-read STR detection tool using a string comparison algorithm (see publication details). The algorithm can detect exact (pure, or uninterrupted) STRs (mono- through hexanucleotide STRs greater than or equal to two repeats), incomplete motifs (e.g., ATATATA), interrupted STRs (e.g., AAAATAAAAA), or multiple STRs in a read. Reads that do not have sufficient upstream or downstream sequences flanking the STRs are discarded (we used a threshold of 20 bp on each side of an STR). Each read is split into two “pseudoreads,” containing the upstream and downstream flanks surrounding the STR. 
 
-(2) genotype STRs with error correction (tool ‘Correct genotype for microsatellite errors’)
+Second, these are mapped to the reference genome using a standard paired-end read-mapping algorithm, e.g., BWA, Bowtie, or Bowtie2, treating each pair of flanking sequences as a faux paired-end read. 
+
+Finally, STR-FM runs a profiler tool, which groups all reads with STRs that are mapped to the same location in the reference genome. As a result, an array of all STR lengths from the reads mapping to a particular STR-containing locus is generated.
+
+
+**(2) genotype STRs with error correction** (tool ‘Correct genotype for microsatellite errors’)
 
 (3) estimate the minimum informative read depth from error rates (tools: ‘Generate all possible combination of read profile’, ‘Evaluate the probability of the allele combination to generate read profile’, ‘Combine the probability to generate read profile’)
 
