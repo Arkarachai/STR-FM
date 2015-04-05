@@ -9,7 +9,7 @@ Our tools in ‘str_fm’ can be used to:
 
 **(1) profile STRs from short read data with STR-FM pipeline** (tools: ‘Microsatellite detection’, ‘Read name modifier’, ‘Fetch flanking bases’, ‘Combine mapped flanked bases’, ‘Check microsatellite motif compatibility’, ‘Select uninterrupted microsatellites’)
 
-This function needs several tools on Galaxy to complete the process. It can be customized with different mapper or STRs detection algorithm. Either single-end or paired-end sequencing data can be utilized; for paired-end read data, each read is treated separately. The core of the pipeline consists of the following three procedures 
+This pipeline needs several tools on Galaxy to complete the process. It can be customized with different mapper or STRs detection algorithm. Either single-end or paired-end sequencing data can be utilized; for paired-end read data, each read is treated separately. The core of the pipeline consists of the following three procedures 
 
 First, STR-FM runs a short-read STR detection tool using a string comparison algorithm (see publication details). The algorithm can detect exact (pure, or uninterrupted) STRs (mono- through hexanucleotide STRs greater than or equal to two repeats), incomplete motifs (e.g., ATATATA), interrupted STRs (e.g., AAAATAAAAA), or multiple STRs in a read. Reads that do not have sufficient upstream or downstream sequences flanking the STRs are discarded (we used a threshold of 20 bp on each side of an STR). Each read is split into two “pseudoreads,” containing the upstream and downstream flanks surrounding the STR. 
 
@@ -23,8 +23,11 @@ This pipeline needs only one of our tools to complete process. It will take STR-
 
 **(3) estimate the minimum informative read depth from error rates** (tools: ‘Generate all possible combination of read profile’, ‘Evaluate the probability of the allele combination to generate read profile’, ‘Combine the probability to generate read profile’)
 
+This pipeline needs other tools on Galaxy to complete the process. This pipeline will generate all possible read profiles from sequencing error spectrum, select the profiles that can distinguish heterozygote from homozygote, calculate the probability to produce such profiles from sequencing error spectrum, and report the probability that a certain sequence depth can distinguish heterozygote from homozygote under a given sequencing error rates (see publication details). We recommend that you should try to run with less than 10x depth for initial trial.
 
 **(4) convert informative read depth to locus-specific and genome-wide sequencing depth** (tool ‘Convert informative read depth to sequencing depth’).  
+
+This pipeline needs only one of our tools to complete process. It will convert *informative read depth* to *locus-specific sequencing depth* (given read length) and *genome-wide sequencing depth* (given confidence intervals).
 
 
 ## Tools description
