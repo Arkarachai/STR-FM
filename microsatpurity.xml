@@ -57,7 +57,7 @@ If this tool is used in STR-FM microsatellite profiling, it should contains:
 - Column 10 = repeat motif (bp)
 - Column 11 = hamming distance 
 - Column 12 = read name
-- Column 13 = read sequence with soft masking of microsatellites
+- Column 13 = read sequence with soft masking of STR
 - Column 14 = read quality (the same Phred score scale as input)
 - Column 15 = read name (The same as column 12)
 - Column 16 = chromosome 
