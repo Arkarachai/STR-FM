@@ -108,26 +108,9 @@
 
 **What it does**
 
-We use different algorithms to detect STRs depend on hamming distance parameter. 
-If hamming distance is set to zero, the program will only concern about uninterrupted STRs. The process works as follows.
-
-1) Scanning reads using sliding windows. For a given repeat period ‘k’ (e.g. k=2 for dinucleotide TRs), we compared consecutive k-mer window size sequences, with a step size of k. If a base at a given position matches one k positions earlier it was marked with a plus, if corresponding sites had different bases it was marked with a minus. The first k position is blank.
-
-2) Since we do not allow mutations in reported TR, consecutive “+” signal sequence means that a k-mer TR is present in this sample. 
-
-3) Report k-mer TRs if the length is larger than a threshold provided by the user.
-
-If hamming distance is set to integer more than zero, the program will concern both uninterrupted and interrupted STRs. The process works as follows:
-
-(1) Identify intervals that are highly correlated with the interval shifted by ‘k’ (the repeat period).  These intervals are called "runs" or "candidates". The allowed level of correlation is 6/7. Depending on whether we want to look for more than one STR, we either find the longest such run (simple algorithm) or many runs (more complicated algorithm). The following steps are then performed on each run.
-
-(2) Find the most likely repeat motif in the run.  This is done by counting all kmers (of length P) and choosing the most frequent.  If that kmer is itself covered by a sub-repeat we discard this run.  The idea is that we can ignore a 6-mer like ACGACG because we will find it when we are looking for 3-mers.
-
-(3) Once we identify the most likely repeat motif, we then modify the interval, adjusting start and end to find the interval that has the fewest mismatches vs. a sequence of the motif repeated (hamming distance). 
-
-(4) At this point we have a valid STR interval (in the eyes of the program). It is subjected to some filtering stages (hamming distance or too close to an end), and if it satisfies those conditions, it's reported to the user
-    
-For more option, the script to run this program can be downloaded and run with python independently from Galaxy. There are more option for the script mode. Help page is build-in inside the script.
+This tool identifies simple as well interrupted STRs. Choosing a hamming distance of zero will return simple STRs. 
+Choosing a hamming distance of greater than zero will return both simple and interrupted STRs. 
+The algorithms used to identify simple and interrupted STRs are described oin the manuscript cited below (see TABLE XXXX).
 
 **Citation**
 
