@@ -1,5 +1,5 @@
-<tool id="GenotypeSTR" name="Correct genotype for microsatellite errors" version="2.0.0">
-  <description> during sequencing and library prep </description>
+<tool id="GenotypeSTR" name="Correct genotype for STR errors" version="2.0.0">
+  <description> that occur during sequencing and library prep </description>
   <command interpreter="python2.7">GenotypeTRcorrection.py  $microsat_raw $microsat_error_profile $microsat_corrected  $expectedminorallele </command>
 
   <inputs>
@@ -28,10 +28,10 @@
 
 **What it does**
 
-- This tool will correct for STR sequencing and library preparation errors using error rates estimated from hemizygous male X chromosome (https://usegalaxy.org/u/guru%40psu.edu/h/error-rates-files)or any rates provided by user. The read profile for each locus will be processed independently. 
-- First, this tool will find three most common read lengths from input read length profile. If the read profile has only one length of STR, the length of one motif longer than the observed length will be used as the second most common read length. 
-- Second, it will calculate probability of three forms of homozygote and use the form which give the highest probability. The same goes for heterozygote. 
-- Third, this tools will calculate log based 10 of (the probability of homozygote/the probability of heterozygote). If this value is more than 0, it will predict this locus to be homozygote. If this value is less than 0, it will predict this locus to be heterozygote. If this value is 0, read profile at this locus will be discard. 
+- This tool will correct for STR sequencing and library preparation errors using error rates estimated from hemizygous male X chromosome (https://usegalaxy.org/u/guru%40psu.edu/h/error-rates-files) or rates provided by user. The STR length profile for each locus will be processed independently. 
+- First, this tool will find three most common STR lengths from input STR length profile. If the STR length profile has only one length of STR, the length of one motif longer than the observed length will be used as the second most common STR length. 
+- Second, it will calculate probability of three forms of homozygotes and use the form with the highest probability. The same goes for heterozygotes. 
+- Third, this tools will calculate log10 of the ratio of the probability of homozygote to the probability of heterozygote. If this value is more than 0, it will predict this locus to be homozygote. If this value is less than 0, it will predict this locus to be heterozygote. If this value is 0, read profile at this locus will be discarded. 
 
 **Citation**
 
@@ -56,14 +56,14 @@ The output will be contain original three (or more) columns as the input. Howeve
 
 **Example**
 
-- Suppose that we sequence one locus of STR with NGS. This locus has **A** motif and the following length (bp) profile. ::
+- Suppose that we sequence a locus of STR with NGS. This locus has **A** motif and the following STR length (bp) profile. ::
 
 	chr1_100_106	5, 6, 6, 6, 6, 7, 7, 8, 8	A
 	
-- We want to figure out if this locus is a homolozygote or heterozygote and the corresponding allele(s). Therefore, we use this tool to refine genotype.
-- This tool will calculate the probability of homozygote A6A6, A7A7, and A8A8 to generate observed length profile. Among this A7A7 has the highest probability. Therefore, we use this form as the representative for homozygote.
-- Then, this tool will calculate the probability of heterozygote A6A7, A7A8, and A6A8 to generate observed length profile. Among this A6A8 has the highest probability. Therefore, we use this form as the representative for heterozygote.    
-- The A6A7 has higher probability than A7A7. Therefore, the program will report that this locus is a heterozygous locus. ::
+- We want to figure out if this locus is a homoozygote or heterozygote and the corresponding allele(s). Therefore, we use this tool to refine genotype.
+- This tool will calculate the probability of homozygote A6A6, A7A7, and A8A8 to generate the observed STR length profile. Among this A7A7 has the highest probability. Therefore, we use this form as the representative for homozygote.
+- Then, this tool will calculate the probability of heterozygote A6A7, A7A8, and A6A8 to generate the observed STR length profile. Among this A6A8 has the highest probability. Therefore, we use this form as the representative for heterozygote.    
+- Finally, it will compare the representative homozygous and heterozygous forms. The A6A8 has higher probability than A7A7. Therefore, the program will report that this locus as a heterozygous locus of form A6A8. ::
 
 	chr1	5,6,6,6,6,7,7,8,8	A	hetero	-14.8744881854	7	6	8
 
