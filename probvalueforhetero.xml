@@ -28,8 +28,8 @@
 
 **What it does**
 
-- This tool will calculate the probability that the allele combination can generated the given read profile. This tool is part of the pipeline to estimate minimum read depth.
-- The calculation of probability is very similar to the tool **Correct genotype for microsatellite errors**. However, this tool will restrict the calculation to only the allele combination indicated in input. Also, when it encounter allele combination that cannot be generated from error profile, the total probability will be zero instead of using base substitution rate. 
+- This tool will calculate the probability that the allele combination can generated the given STRs length profile. This tool is part of the pipeline to estimate minimum read depth.
+- The calculation of probability is very similar to the tool **Correct genotype for STR errors**. However, this tool will restrict the calculation to only the allele combination indicated in input. Also, when it encounter allele combination that cannot be generated from error profile, the total probability will be zero instead of using base substitution rate. 
 
 **Citation**
 
