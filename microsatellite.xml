@@ -1,4 +1,4 @@
-﻿<tool id="microsatellite" name="STRs detection" version="1.0.0">
+﻿<tool id="microsatellite" name="STR detection" version="1.0.0">
 	<description>for short read, reference, and mapped data</description>
 	<command interpreter="python2.7"> microsatellite.py
 	"${filePath}"
