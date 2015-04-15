@@ -1,4 +1,4 @@
-<tool id="microsatcompat" name="Check microsatellites motif compatibility" version="1.0.0">
+<tool id="microsatcompat" name="Check STR motif compatibility between reference and read STRs" version="1.0.0">
   <description> </description>
   <command interpreter="python">microsatcompat.py $input $column1 $column2 > $output </command>
 
@@ -28,9 +28,9 @@
 
 **What it does**
 
-This tool is used to select only the input lines which have compatible STR motifs between two columns. Compatible here is defined as the STR motif that are complementary or have the same sequence when change starting point of motif. For example, **A** is the same as **T**. Also, **AGG** is the same as **GAG**.
+This tool is used to select only those input lines that have compatible STR motifs between the two user-specified columns. Two STR motifs are called compatible if they are either identical, or complementary, or produce the same sequence on rotating the start of the motif. For example, **A** is considered compatible with **A** and its reverse complement **T**. Similarly, **AGG** considered compatible with **AGG**, its reverse complement **TCC**, and their rotations **GGA**, **GAG**, **CCT** and **CTC**.
 
-For STR-FM pipeline (profiling STRs in short read data), this tool can be used to make sure that the STRs in the reads have the same motif as the STRs in the reference at the corresponding mapped location. 
+For STR-FM pipeline (profiling STRs in short read data), this tool can be used to make sure that the STRs in the reads have the compatible motif as the STRs in the reference at the corresponding mapped location. 
 
 **Citation**
 
