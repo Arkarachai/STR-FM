@@ -1,5 +1,5 @@
-<tool id="PEsortedSAM2readprofile" name="Combine mapped flaked bases" version="1.0.0">
-  <description> from SAM file sorted by readname  </description>
+<tool id="PEsortedSAM2readprofile" name="Combine mapped faux paired-end reads" version="1.0.0">
+  <description> and get the reference STR allele from the reference genome  </description>
   <command interpreter="python2.7">PEsortedSAM2readprofile.py  $flankedbasesSAM $twobitref $maxTRlength $maxoriginalreadlength $output </command>
 
   <inputs>
@@ -30,8 +30,7 @@
 
 **What it does**
 
-- This tool will take SAM file (sorted by read name), remove unpaired reads, and combine paired read data in one line tabular format. It also reports Short Tandem Repeats (STRs) sequences in the reference genome that correspond to the space between paired end reads and the coordinate of start and stop for left and right flanking regions of STRs.
-- These STRs in reference can be used to filter out reads that do not contain STRs that concur with STRs in reference where the reads mapped to.
+- This tool will take SAM file (sorted by read name), remove unpaired reads, and combine paired faux read-pairs into a single row. It also reports Short Tandem Repeats (STRs) sequences in the reference genome that correspond to the space between the faux paired end reads and the coordinate of start and stop for left and right flanking regions of STRs.
 
 **Citation**
 
@@ -39,11 +38,11 @@ When you use this tool, please cite **Fungtammasan A, Ananda G, Hile SE, Su MS, 
  
 **Input**
 
-- Sorted SAM files by read name
+- Sorted SAM files by read name. 
 
 **Output**
 
-The output will combined two lines of input which are paired. The output format is as follow.
+The output will combine the two faux paired-end read lines of input ito the following single line format:
 
 - Column 1 = read name
 - Column 2 = chromosome 
