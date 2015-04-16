@@ -1,4 +1,4 @@
-<tool id="combineproballelecom" name="Combine probability to generate read profile " version="2.0.0">
+<tool id="combineproballelecom" name="Combine read profile probabilities " version="2.0.0">
   <description>from the same allele combination</description>
   <command interpreter="python2.7">combinedprobforallelecombination.py  $input > $output </command>
 
@@ -24,7 +24,7 @@
 
 **What it does**
 
-- This tool will combine probability that the allele combination can generated any read profile in the input. This is the last step to calculate probability to detect heterozygote for each allele combination and each depth.
+- This tool will combine the read profile probabilities for each allele combination in the input and calculates the probability to detect heterozygote for each allele combination and each depth.
 
 **Citation**
 
