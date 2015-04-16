@@ -33,20 +33,20 @@
 **What it does**
 
 This tool is used to convert informative read depth (specified by user) to sequencing depth when the STRs is mapped using STR-FM pipeline.
-The locus specific sequencing depth is the sequencing depth that will make a certain loci have certain read depth based on uniform mapped of read. It is calculated as: ::
+The locus specific sequencing depth (yrequired) is the sequencing depth that will make an STR locus to have a certain informative read depth based on uniform mapping of reads. It is calculated as follows: ::
 
 	yrequired = ( X * L ) / (L - (2F+r-1))
 	
-Where X = read depth, L = read length, F = the number of flanked bases required on each flanking regions, r = the expected repeat length of microsatellite of interest.
+where X = informative read depth, L = read length, F = the number of flanking bases required on either side, r = the expected repeat length of the STR of interest.
 
 The genome wide sequencing depth is the sequencing depth that will make certain percentage of genome (e.g. 90 percent or 95 percent) to have certain locus specific sequencing depth. It's calculated using numerical guessing to find smallest lambda that: ::
 
 	 0.90 (or other proportion specified by user) &lt; = P(Y=0) + P(Y=1) + …+ P(Y=yrequired-1)  
 	 
-	 P(Y=y) = (lambda^(y) * e ^(-lambda)) /y!
-
+where P(Y=y) = (lambda^(y) * e ^(-lambda)) /y!
  y = specific level of sequencing depth. Lambda = genome wide sequencing depth
-
+ 
+ Please refer the Methods section of the paper cited below for further details.
 
 **Citation**
 
