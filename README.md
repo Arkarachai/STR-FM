@@ -1,9 +1,9 @@
 # *STR-FM*, a short tandem repeat profiling using a flank-based mapping approach
 
 ## User manual and guide
-We designed the STR profiling pipeline as a collection of tools which can be performed in both commandline or as GUI on Galaxy. The easiest way to use STR-FM pipeline is to use in Galaxy platform. Current, we have all tools in Galaxy main toolshed (See installation of STR-FM tools from toolshed below) and in Galaxy test website (STR-FM: microsatellite analysis).
+We designed the STR profiling pipeline as a collection of tools which can be executed in both commandline or via a GUI on Galaxy. The easiest way to use STR-FM pipeline is to via Galaxy platform. Current, we have all tools in Galaxy main toolshed (See installation of STR-FM tools from toolshed below) and in Galaxy test website (STR-FM: microsatellite analysis).
 
-## Overiew
+## Overview
 
 Our tools in ‘str_fm’ can be used to: 
 
@@ -30,7 +30,7 @@ This pipeline needs other tools on Galaxy to complete the process. This pipeline
 This pipeline needs only one of our tools to complete process. It will convert *informative read depth* to *locus-specific sequencing depth* (given read length) and *genome-wide sequencing depth* (given confidence intervals).
 
 
-## Tools description
+## Description of tools
 
 The short description for each tool is provided below.
 
@@ -53,7 +53,7 @@ Fungtammasan A, Ananda G, Hile SE, Su MS, Sun C, Harris R, Medvedev P, Eckert K,
 ## Installation of STR-FM tools from toolshed
 
 
-The installation process can be done as follow
+The installation can be done as follows
 
 
 1 Install and set configuration of local Galaxy 
@@ -73,7 +73,7 @@ The installation process can be done as follow
 1.7 Refresh your browser
 
 
-2 Install tools from and str_fm and dependency tools
+2 Install tools and dependencies
 
 2.1 From your local galaxy, click ‘Admin’ tab on the top.
 
