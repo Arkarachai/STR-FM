@@ -28,7 +28,7 @@
 
 **What it does**
 
-- This tool will calculate the probability that the allele combination can generated the given STRs length profile. This tool is part of the pipeline to estimate minimum read depth.
+- This tool will calculate the probability that the allele combination can generated the given the STR length profile. This tool is part of the pipeline to estimate minimum read depth.
 - The calculation of probability is very similar to the tool **Correct genotype for STR errors**. However, this tool will restrict the calculation to only the allele combination indicated in input. Also, when it encounter allele combination that cannot be generated from error profile, the total probability will be zero instead of using base substitution rate. 
 
 **Citation**
@@ -37,7 +37,7 @@ When you use this tool, please cite **Fungtammasan A, Ananda G, Hile SE, Su MS, 
  
 **Input**
 
-The input format is the same as output from **Correct genotype for microsatellite errors** tool.
+The input format is the same as output from **Correct genotype for STR errors** tool.
 
 - Column 1 = location of STR locus. 
 - Column 2 = length profile (length of STR in each read that mapped to this location in comma separated format). 
@@ -53,9 +53,9 @@ Only column 2,3,7,8 were used in calculation.
 **Output**
 
 
-The output will be contain original eight column from the input. However, it will also add these following columns. 
+The output will contain the original eight columns from the input and the following additional columns. 
 - Column 9 = Probability of the allele combination to generate given read profile.
-- Column 10 = Number of possible rearrangement of given read profile.
+- Column 10 = Number of possible rearrangements of the given read profile.
 - Column 11 = Probability of the allele combination to generate read profile with any rearrangement (Product of column 9 and column 10)
 - Column 12 = Read depth
 
