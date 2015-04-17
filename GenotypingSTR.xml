@@ -50,9 +50,9 @@ The output will be contain original three (or more) columns as the input. Howeve
 
 - Additional column 1 = homozygote/heterozygote label.
 - Additional column 2 = log based 10 of (the probability of homozygote/the probability of heterozygote)
-- Additional column 3 = Allele for most probable homozygote form.
-- Additional column 4 = Allele 1 for most probable heterozygote form.
-- Additional column 5 = Allele 2 for most probable heterozygote form.
+- Additional column 3 = Allele for most probable homozygote.
+- Additional column 4 = Allele 1 for most probable heterozygote.
+- Additional column 5 = Allele 2 for most probable heterozygote.
 
 **Example**
 
