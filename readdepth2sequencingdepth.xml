@@ -44,6 +44,7 @@ The genome wide sequencing depth is the sequencing depth that will make certain 
 	 0.90 (or other proportion specified by user) &lt; = P(Y=0) + P(Y=1) + …+ P(Y=yrequired-1)  
 	 
 	 where P(Y=y) = (lambda^(y) * e ^(-lambda)) /y!
+	 
  y = specific level of sequencing depth. Lambda = genome wide sequencing depth
  
  Please refer the Methods section of the paper cited below for further details.
