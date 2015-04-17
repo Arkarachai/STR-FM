@@ -1,4 +1,4 @@
-<tool id="microsatpurity" name="Select uninterrupted microsatellites" version="1.0.0">
+<tool id="microsatpurity" name="Select uninterrupted STRs" version="1.0.0">
   <description> of a specific column</description>
   <command interpreter="python">microsatpurity.py $input $period $column_n > $output </command>
 
