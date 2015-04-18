@@ -7,7 +7,7 @@ We designed the STR profiling pipeline as a collection of tools which can be exe
 
 Our tools in ‘str_fm’ can be used to: 
 
-**(1) profile STRs from short read data with STR-FM pipeline** (tools: ‘Microsatellite detection’, ‘Read name modifier’, ‘Fetch flanking bases’, ‘Combine mapped flanked bases’, ‘Check microsatellite motif compatibility’, ‘Select uninterrupted microsatellites’)
+**(1) profile STRs from short read data with STR-FM pipeline** (tools: ‘STR detection’, ‘Read name modifier’, ‘Fetch bases flanking’, ‘Combine mapped faux paired-end reads’, ‘Check STR motif compatibility between reference and read STRs’, ‘Select uninterrupted STRs’)
 
 This pipeline needs several tools on Galaxy to complete the process. It can be customized with different mapper or STRs detection algorithm. Either single-end or paired-end sequencing data can be utilized; for paired-end read data, each read is treated separately. The core of the pipeline consists of the following three procedures 
 
@@ -17,11 +17,11 @@ Second, these are mapped to the reference genome using a standard paired-end rea
 
 Finally, STR-FM runs a profiler tool, which groups all reads with STRs that are mapped to the same location in the reference genome. As a result, an array of all STR lengths from the reads mapping to a particular STR-containing locus is generated.
 
-**(2) genotype STRs with error correction** (tool ‘Correct genotype for microsatellite errors’)
+**(2) genotype STRs with error correction** (tool ‘Correct genotype for STR errors’)
 
 This pipeline needs only one of our tools to complete process. It will take STR-profile file and sequencine error rates file as inputs. The program will calculate the maximum likelihood of genotype for each STR locus in STR-profile file. Then it will report the mostly likely genotype and the log odds ratio between their probabilities, which can be interpreted as a confidence of genotyping (the more this value deviates from 0, the more confidence we have in this genotype).
 
-**(3) estimate the minimum informative read depth from error rates** (tools: ‘Generate all possible combination of read profile’, ‘Evaluate the probability of the allele combination to generate read profile’, ‘Combine the probability to generate read profile’)
+**(3) estimate the minimum informative read depth from error rates** (tools: ‘Generate all possible combination of STR length profile’, ‘Evaluate the probability of the allele combination to generate read profile’, ‘Combine read profile probabilities’)
 
 This pipeline needs other tools on Galaxy to complete the process. This pipeline will generate all possible read profiles from sequencing error spectrum, select the profiles that can distinguish heterozygote from homozygote, calculate the probability to produce such profiles from sequencing error spectrum, and report the probability that a certain sequence depth can distinguish heterozygote from homozygote under a given sequencing error rates (see publication details). We recommend that you should try to run with less than 10x depth for initial trial.
 
@@ -34,16 +34,16 @@ This pipeline needs only one of our tools to complete process. It will convert *
 
 The short description for each tool is provided below.
 
-1. “Microsatellite detection” = Detect STRs from short reads (FASTQ), reference genome (FASTA), or alignments (SAM)
+1. “STR detection” = Detect STRs from short reads (FASTQ), reference genome (FASTA), or alignments (SAM)
 2. “Read name modifier” = Change space in read name to ‘_’ to prevent read name truncation by mapping tools
-3. “Fetch flanking bases” = Generate two FASTQ files containing flanking bases around STRs for mapping as faux paired-end reads
-4. “Combine mapped flanked bases” = For each mapped faux paired-end reads, infer STR sequence in reference genome between the two mapped ends of the pair
-5. “Check microsatellite motif compatibility” = Check if two STRs have the same motif
-6. “ Select uninterrupted microsatellites” = Select STRs that do not contain an interruption
-7. “Correct genotype for microsatellite errors” = Build error correction model from pre-defined error rates and identify most likely genotype of the input data
-8. “Generate all possible combinations of read profile” = Use STR error spectrum to generate all possible combinations of read profile at each read depth
+3. “Fetch bases flanking” = Generate two FASTQ files containing flanking bases around STRs for mapping as faux paired-end reads
+4. “Combine mapped faux paired-end reads” = For each mapped faux paired-end reads, infer STR sequence in reference genome between the two mapped ends of the pair
+5. “Check STR motif compatibility between reference and read STRs” = Check if two STRs have the same motif
+6. “Select uninterrupted STRs” = Select STRs that do not contain an interruption
+7. “Correct genotype for STR errors” = Build error correction model from pre-defined error rates and identify most likely genotype of the input data
+8. “Generate all possible combination of STR length profile” = Use STR error spectrum to generate all possible combinations of read profile at each read depth
 9. “Evaluate the probability of the allele combination to generate read profile” = Calculate the probability of a given genotype to generate read profiles (instead of finding most likely genotype like tool number 7)
-10. “Combine the probability to generate read profile” = Sum the probability of the given allele combinations to generate read profile at certain read depth
+10. “Combine read profile probabilities” = Sum the probability of the given allele combinations to generate read profile at certain read depth
 11. “Convert informative read depth to sequencing depth” = Calculate ‘locus-specific’ and ‘genome-wide’ sequencing depth from the given informative read depth
 The detailed description for each tool is embedded within the tool.
 
