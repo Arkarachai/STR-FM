@@ -4,7 +4,7 @@
 ##1 fastq input in sangerfq Phred scale --> ${INPUT}.fastq
 ##2 index of mapping program (bwa, bowtie, etc) 
 ##3 location of all STR in reference genome (use PBS script name "sampleSTR_reference_profiling.txt) --> /path/to/STR/in/reference/genome.TR (you can make 4 separated TR files for 4 types of STRs)
-##4 reference genome in FASTA and in 2bit file (use utility from UCSC genome browser to create 2bit file version of reference genome)
+##4 reference genome in FASTA and in 2bit file --> /path/to/2bit/ref.2bit (use utility from UCSC genome browser to create 2bit file version of reference genome)
 ##5 local Galaxy (available from Galaxy website for Mac and Unix computer)
 ##6 STR error rates (can be downloaded from https://usegalaxy.org/u/guru%40psu.edu/h/error-rates-files) --> errorrate.bymajorallele
 ##
