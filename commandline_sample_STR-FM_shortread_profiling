@@ -17,7 +17,7 @@ galaxydir=/path/to/galaxy-dist/tools
 cd /working/directory/
 echo " "
 echo " detect STR in short read" ## See detail in microsatellite.xml on https://github.com/Arkarachai/STR-FM
-python microsatellite.py.py ${INPUT}.fastq  --fastq --period=1 --partialmotifs --minlength=5 --prefix=20 --suffix=20 --hamming=0 --multipleruns  >${INPUT}.mono.out
+python microsatellite.py ${INPUT}.fastq  --fastq --period=1 --partialmotifs --minlength=5 --prefix=20 --suffix=20 --hamming=0 --multipleruns  >${INPUT}.mono.out
 python microsatellite.py ${INPUT}.fastq  --fastq --period=2 --partialmotifs --minlength=6 --prefix=20 --suffix=20 --hamming=0 --multipleruns  >${INPUT}.di.out
 python microsatellite.py ${INPUT}.fastq  --fastq --period=3 --partialmotifs --minlength=9 --prefix=20 --suffix=20 --hamming=0 --multipleruns  >${INPUT}.tri.out
 python microsatellite.py ${INPUT}.fastq  --fastq --period=4 --partialmotifs --minlength=12 --prefix=20 --suffix=20 --hamming=0 --multipleruns  >${INPUT}.tetra.out
