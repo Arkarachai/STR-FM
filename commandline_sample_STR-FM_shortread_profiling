@@ -1,0 +1,124 @@
+## This is a sample PBS script for profiling STR from short read using STR-FM version 2.0.0 (April 20, 2015)
+##   
+##requirement
+##1 fastq input in sangerfq Phred scale --> ${INPUT}.fastq
+##2 index of mapping program (bwa, bowtie, etc) 
+##3 location of all STR in reference genome (use PBS script name "sampleSTR_reference_profiling.txt) --> /path/to/STR/in/reference/genome.TR (you can make 4 separated TR files for 4 types of STRs)
+##4 reference genome in FASTA and in 2bit file (use utility from UCSC genome browser to create 2bit file version of reference genome)
+##5 local Galaxy (available from Galaxy website for Mac and Unix computer)
+##6 STR error rates (can be downloaded from https://usegalaxy.org/u/guru%40psu.edu/h/error-rates-files) --> errorrate.bymajorallele
+##
+echo " "
+echo " "
+echo "Job started on `hostname` at `date`"
+ref=/path/to/reference/sequence/and/bwa/index/ref.fa
+export PYTHONPATH=/path/to/galaxy-dist/lib/
+galaxydir=/path/to/galaxy-dist/tools
+cd /working/directory/
+echo " "
+echo " detect STR in short read" ## See detail in microsatellite.xml on https://github.com/Arkarachai/STR-FM
+python microsatellite.py.py ${INPUT}.fastq  --fastq --period=1 --partialmotifs --minlength=5 --prefix=20 --suffix=20 --hamming=0 --multipleruns  >${INPUT}.mono.out
+python microsatellite.py ${INPUT}.fastq  --fastq --period=2 --partialmotifs --minlength=6 --prefix=20 --suffix=20 --hamming=0 --multipleruns  >${INPUT}.di.out
+python microsatellite.py ${INPUT}.fastq  --fastq --period=3 --partialmotifs --minlength=9 --prefix=20 --suffix=20 --hamming=0 --multipleruns  >${INPUT}.tri.out
+python microsatellite.py ${INPUT}.fastq  --fastq --period=4 --partialmotifs --minlength=12 --prefix=20 --suffix=20 --hamming=0 --multipleruns  >${INPUT}.tetra.out
+
+echo "change read name at " ## See detail in space2underscore_readname.xml on https://github.com/Arkarachai/STR-FM
+python changespacetounderscore_readname.py ${INPUT}.mono.out  ${INPUT}.mono.new 6
+python changespacetounderscore_readname.py ${INPUT}.di.out  ${INPUT}.di.new 6
+python changespacetounderscore_readname.py ${INPUT}.tri.out  ${INPUT}.tri.new 6
+python changespacetounderscore_readname.py ${INPUT}.tetra.out  ${INPUT}.tetra.new 6
+
+echo "start fetch flanking at `date`" ## See detail in fetchflank.xml on https://github.com/Arkarachai/STR-FM
+python pair_fetch_DNA_ff.py ${INPUT}.mono.new ${INPUT}.mono_ff_L.txt ${INPUT}.mono_ff_R.txt 20 20
+python pair_fetch_DNA_ff.py ${INPUT}.di.new ${INPUT}.di_ff_L.txt ${INPUT}.di_ff_R.txt 20 20
+python pair_fetch_DNA_ff.py ${INPUT}.tri.new ${INPUT}.tri_ff_L.txt ${INPUT}.tri_ff_R.txt 20 20
+python pair_fetch_DNA_ff.py ${INPUT}.tetra.new ${INPUT}.tetra_ff_L.txt ${INPUT}.tetra_ff_R.txt 20 20
+
+echo "BWA uniquely mapped no indel no deletion "
+bwa aln -n 0 -o 0 ${ref} ${INPUT}.mono_ff_L.txt > ${INPUT}.mono_ff_L.sai 
+bwa aln	-n 0 -o 0 ${ref} ${INPUT}.mono_ff_R.txt > ${INPUT}.mono_ff_R.sai
+bwa sampe ${ref} ${INPUT}.mono_ff_L.sai ${INPUT}.mono_ff_R.sai ${INPUT}.mono_ff_L.txt ${INPUT}.mono_ff_R.txt  > ${INPUT}.mono.sam
+samtools view -Sb -F 12 -q 1 ${INPUT}.mono.sam > ${INPUT}.mono.n.all.bam
+bwa aln -n 0 -o 0 ${ref} ${INPUT}.di_ff_L.txt > ${INPUT}.di_ff_L.sai 
+bwa aln	-n 0 -o 0 ${ref} ${INPUT}.di_ff_R.txt > ${INPUT}.di_ff_R.sai
+bwa sampe ${ref} ${INPUT}.di_ff_L.sai ${INPUT}.di_ff_R.sai ${INPUT}.di_ff_L.txt ${INPUT}.di_ff_R.txt  > ${INPUT}.di.sam
+samtools view -Sb -F 12 -q 1 ${INPUT}.di.sam > ${INPUT}.di.n.all.bam
+bwa aln -n 0 -o 0 ${ref} ${INPUT}.tri_ff_L.txt > ${INPUT}.tri_ff_L.sai 
+bwa aln	-n 0 -o 0 ${ref} ${INPUT}.tri_ff_R.txt > ${INPUT}.tri_ff_R.sai
+bwa sampe ${ref} ${INPUT}.tri_ff_L.sai ${INPUT}.tri_ff_R.sai ${INPUT}.tri_ff_L.txt ${INPUT}.tri_ff_R.txt  > ${INPUT}.tri.sam
+samtools view -Sb -F 12 -q 1 ${INPUT}.tri.sam > ${INPUT}.tri.n.all.bam
+bwa aln -n 0 -o 0 ${ref} ${INPUT}.tetra_ff_L.txt > ${INPUT}.tetra_ff_L.sai 
+bwa aln	-n 0 -o 0 ${ref} ${INPUT}.tetra_ff_R.txt > ${INPUT}.tetra_ff_R.sai
+bwa sampe ${ref} ${INPUT}.tetra_ff_L.sai ${INPUT}.tetra_ff_R.sai ${INPUT}.tetra_ff_L.txt ${INPUT}.tetra_ff_R.txt  > ${INPUT}.tetra.sam
+samtools view -Sb -F 12 -q 1 ${INPUT}.tetra.sam > ${INPUT}.tetra.n.all.bam
+
+echo "sort result by read name"
+samtools sort -n ${INPUT}.mono.n.all.bam ${INPUT}.mono.n.sorted.all
+samtools sort -n ${INPUT}.di.n.all.bam ${INPUT}.di.n.sorted.all
+samtools sort -n ${INPUT}.tri.n.all.bam ${INPUT}.tri.n.sorted.all
+samtools sort -n ${INPUT}.tetra.n.all.bam ${INPUT}.tetra.n.sorted.all
+samtools view -h -o ${INPUT}.mono.n.sorted.all.sam ${INPUT}.mono.n.sorted.all.bam
+samtools view -h -o ${INPUT}.di.n.sorted.all.sam ${INPUT}.di.n.sorted.all.bam
+samtools view -h -o ${INPUT}.tri.n.sorted.all.sam ${INPUT}.tri.n.sorted.all.bam
+samtools view -h -o ${INPUT}.tetra.n.sorted.all.sam ${INPUT}.tetra.n.sorted.all.bam
+
+echo "merge faux paired end reads" ## See detail in PEsortedSAM2readprofile.xml on https://github.com/Arkarachai/STR-FM
+python PEsortedSAM2readprofile.py ${INPUT}.mono.n.sorted.all.sam /path/to/2bit/ref.2bit 100 250  ${INPUT}.mono.RF 
+python PEsortedSAM2readprofile.py ${INPUT}.di.n.sorted.all.sam /path/to/2bit/ref.2bit 100 250  ${INPUT}.mono.RF 
+python PEsortedSAM2readprofile.py ${INPUT}.tri.n.sorted.all.sam /path/to/2bit/ref.2bit 100 250  ${INPUT}.mono.RF 
+python PEsortedSAM2readprofile.py ${INPUT}.tetra.n.sorted.all.sam /path/to/2bit/ref.2bit 100 250  ${INPUT}.mono.RF 
+
+echo "join mapped coordinate with STR length using read name" 
+python ${galaxydir}/filters/join.py ${INPUT}.mono.new ${INPUT}.mono.RF 6 1 ${INPUT}.mono.RF.j "" "" --index_depth=3 --buffer=50000000 --fill_options_file='None'
+python ${galaxydir}/filters/join.py ${INPUT}.di.new ${INPUT}.di.RF 6 1 ${INPUT}.mono.RF.j "" "" --index_depth=3 --buffer=50000000 --fill_options_file='None'
+python ${galaxydir}/filters/join.py ${INPUT}.tri.new ${INPUT}.tri.RF 6 1 ${INPUT}.mono.RF.j "" "" --index_depth=3 --buffer=50000000 --fill_options_file='None'
+python ${galaxydir}/filters/join.py ${INPUT}.tetra.new ${INPUT}.tetra.RF 6 1 ${INPUT}.mono.RF.j "" "" --index_depth=3 --buffer=50000000 --fill_options_file='None'
+
+echo "join mapped coordinate and STR length with STR location in genome"
+python ${galaxydir}/new_operations/gops_join.py /path/to/STR/in/reference/genome.TR ${INPUT}.mono.RF.j ${INPUT}.mono.gop -1 1,2,3,0 -2 10,13,14,0 -m 1 -f
+python ${galaxydir}/new_operations/gops_join.py /path/to/STR/in/reference/genome.TR ${INPUT}.di.RF.j ${INPUT}.di.gop -1 1,2,3,0 -2 10,13,14,0 -m 1 -f
+python ${galaxydir}/new_operations/gops_join.py /path/to/STR/in/reference/genome.TR ${INPUT}.tri.RF.j ${INPUT}.tri.gop -1 1,2,3,0 -2 10,13,14,0 -m 1 -f
+python ${galaxydir}/new_operations/gops_join.py /path/to/STR/in/reference/genome.TR ${INPUT}.tetra.RF.j ${INPUT}.tetra.gop -1 1,2,3,0 -2 10,13,14,0 -m 1 -f
+
+echo "remove incompatible motif (remove incorrect mapped reads given that there is no STR motif difference from reference genome)" ## See detail in microsatcompat.xml on https://github.com/Arkarachai/STR-FM
+python microsatcompat.py ${INPUT}.mono.gop 4 10 > ${INPUT}.mono.fulltable1 
+python microsatcompat.py ${INPUT}.di.gop 4 10 > ${INPUT}.di.fulltable1 
+python microsatcompat.py ${INPUT}.tri.gop 4 10 > ${INPUT}.tri.fulltable1 
+python microsatcompat.py ${INPUT}.tetra.gop 4 10 > ${INPUT}.tetra.fulltable1 
+
+echo "remove shifting flanking location (remove cases that come from STR interruption or flanking bases are misread as STRs)"
+cat ${INPUT}.mono.fulltable1 | awk '($19==$2) && ($20==$3) {print $0}' > ${INPUT}.mono.fulltable2
+cat ${INPUT}.di.fulltable1 | awk '($19==$2) && ($20==$3) {print $0}' > ${INPUT}.di.fulltable2
+cat ${INPUT}.tri.fulltable1 | awk '($19==$2) && ($20==$3) {print $0}' > ${INPUT}.tri.fulltable2
+cat ${INPUT}.tetra.fulltable1 | awk '($19==$2) && ($20==$3) {print $0}' > ${INPUT}.tetra.fulltable2
+
+echo "keep only column that are necessary for profiling" 
+cat ${INPUT}.mono.fulltable2| cut -f 1,2,3,4,5,7 | sort -k 1n,1 -k 2n,2 -k 3n,3 > ${INPUT}.mono.cuttmp0
+cat ${INPUT}.di.fulltable2| cut -f 1,2,3,4,5,7 | sort -k 1n,1 -k 2n,2 -k 3n,3 > ${INPUT}.di.cuttmp0
+cat ${INPUT}.tri.fulltable2| cut -f 1,2,3,4,5,7 | sort -k 1n,1 -k 2n,2 -k 3n,3 > ${INPUT}.tri.cuttmp0
+cat ${INPUT}.tetra.fulltable2| cut -f 1,2,3,4,5,7 | sort -k 1n,1 -k 2n,2 -k 3n,3 > ${INPUT}.tetra.cuttmp0
+
+echo "If you multiple analysis by splitting initial fastq, you should merge (cat) all results from the same sample after this step"
+
+echo "create genomic coordinate column and group by that column"
+perl ${galaxydir}/filters/fixedValueColumn.pl ${INPUT}.mono.cuttmp0 ${INPUT}.mono.cuttmp1 "_" "no"
+python ${galaxydir}/filters/mergeCols.py ${INPUT}.mono.cuttmp1 ${INPUT}.mono.cuttmp2 1 7 2 7 3
+python ${galaxydir}/stats/grouping.py ${INPUT}.mono.cuttmp3 ${INPUT}.mono.cuttmp2 8 0 'cat 6 0' 'cat_uniq 4 0'
+perl ${galaxydir}/filters/fixedValueColumn.pl ${INPUT}.di.cuttmp0 ${INPUT}.di.cuttmp1 "_" "no"
+python ${galaxydir}/filters/mergeCols.py ${INPUT}.di.cuttmp1 ${INPUT}.di.cuttmp2 1 7 2 7 3
+python ${galaxydir}/stats/grouping.py ${INPUT}.di.cuttmp3 ${INPUT}.di.cuttmp2 8 0 'cat 6 0' 'cat_uniq 4 0'
+perl ${galaxydir}/filters/fixedValueColumn.pl ${INPUT}.tri.cuttmp0 ${INPUT}.tri.cuttmp1 "_" "no"
+python ${galaxydir}/filters/mergeCols.py ${INPUT}.tri.cuttmp1 ${INPUT}.tri.cuttmp2 1 7 2 7 3
+python ${galaxydir}/stats/grouping.py ${INPUT}.tri.cuttmp3 ${INPUT}.tri.cuttmp2 8 0 'cat 6 0' 'cat_uniq 4 0'
+perl ${galaxydir}/filters/fixedValueColumn.pl ${INPUT}.tetra.cuttmp0 ${INPUT}.tetra.cuttmp1 "_" "no"
+python ${galaxydir}/filters/mergeCols.py ${INPUT}.tetra.cuttmp1 ${INPUT}.tetra.cuttmp2 1 7 2 7 3
+python ${galaxydir}/stats/grouping.py ${INPUT}.tetra.cuttmp3 ${INPUT}.tetra.cuttmp2 8 0 'cat 6 0' 'cat_uniq 4 0'
+
+echo "you may filter for minimum sequencing depth here"
+
+echo "genotyping using error correction model" ## See detail in GenotypingSTR.xml on https://github.com/Arkarachai/STR-FM
+cat ${INPUT}.mono.cuttmp2 ${INPUT}.di.cuttmp2 ${INPUT}.tri.cuttmp2 ${INPUT}.tetra.cuttmp2 > ${INPUT}.step5
+python GenotypeTRcorrection.py ${INPUT}.step5 errorrate.bymajorallele ${INPUT}.step5.result 0.5
+## final output is ${INPUT}.step5.result
+
+echo "Job end on `hostname` at `date`"
