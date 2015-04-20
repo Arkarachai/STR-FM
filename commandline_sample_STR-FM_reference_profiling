@@ -1,0 +1,25 @@
+## This is a sample PBS script for profiling STR from reference genome using STR-FM version 1.0.0 (April 20, 2014)
+##   
+##requirement
+##1 reference genome in FASTA format --> ${INPUT}.fa
+##
+echo " "
+echo " "
+echo "Job started on `hostname` at `date`"
+cd /working/directory/
+echo " "
+echo " detect STR in reference genome" ## See detail in microsatellite.xml on https://github.com/Arkarachai/STR-FM
+python microsatellite.py ${INPUT}.fa --fasta --period=1 --partialmotifs --minlength=4 --prefix=0 --suffix=0 --hamming=0 --multipleruns --flankdisplay=0  --splitbyvalidity  >${INPUT}.mono.out
+python microsatellite.py ${INPUT}.fa --fasta --period=2 --partialmotifs --minlength=6 --prefix=0 --suffix=0 --hamming=0 --multipleruns --flankdisplay=0  --splitbyvalidity  >${INPUT}.di.out
+python microsatellite.py ${INPUT}.fa --fasta --period=3 --partialmotifs --minlength=6 --prefix=0 --suffix=0 --hamming=0 --multipleruns --flankdisplay=0  --splitbyvalidity  >${INPUT}.tri.out
+python microsatellite.py ${INPUT}.fa --fasta --period=4 --partialmotifs --minlength=8 --prefix=0 --suffix=0 --hamming=0 --multipleruns --flankdisplay=0  --splitbyvalidity  >${INPUT}.tetra.out
+
+echo "formatting"
+cat ${INPUT}.mono.out | awk 'BEGIN{FS="\t";OFS="\t"};{print $6,$2,$2+$1,$4,$1,length($4) }' > ${INPUT}.mono.TR
+cat ${INPUT}.di.out | awk 'BEGIN{FS="\t";OFS="\t"};{print $6,$2,$2+$1,$4,$1,length($4) }' > ${INPUT}.di.TR
+cat ${INPUT}.tri.out | awk 'BEGIN{FS="\t";OFS="\t"};{print $6,$2,$2+$1,$4,$1,length($4) }' > ${INPUT}.tri.TR
+cat ${INPUT}.tetra.out | awk 'BEGIN{FS="\t";OFS="\t"};{print $6,$2,$2+$1,$4,$1,length($4) }' > ${INPUT}.tetra.TR
+
+
+
+echo "Job end on `hostname` at `date`"
