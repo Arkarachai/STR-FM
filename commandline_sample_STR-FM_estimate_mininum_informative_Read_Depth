@@ -1,0 +1,35 @@
+## This is a sample PBS script for profiling STR from reference genome using STR-FM
+##   
+##requirement
+##1 STR error rates (can be downloaded from https://usegalaxy.org/u/guru%40psu.edu/h/error-rates-files) --> errorrate.bymajorallele
+##
+echo " "
+echo " "
+echo "Job started on `hostname` at `date`"
+cd /working/directory/
+echo ${MOTIF}
+echo ${OUTPUT}
+echo " "
+echo "Generate all possible combination of STR length profile" ## See detail in profilegenerator.xml on https://github.com/Arkarachai/STR-FM
+python  profilegenerator.py errorrate.bymajorallele ${MOTIF} 30 > ${OUTPUT}.30
+
+echo "remove duplicated profiles"
+cat ${OUTPUT}.30 | sort | uniq > ${OUTPUT}.30.sort
+
+echo "genotyping using error correction model" ## See detail in GenotypingSTR.xml on https://github.com/Arkarachai/STR-FM
+python  GenotypeTRcorrection.py  ${OUTPUT}.30.sort errorrate.bymajorallele ${OUTPUT}.30.prob 0.5
+
+echo "select only full motif different --> need to replace 4 with motif size (1-6)"
+cat ${OUTPUT}.30.prob | grep  hetero | awk '(($7-$8)==4) || (($8-$7)==4) {print $0}' > ${OUTPUT}.30.prob.screen
+
+echo "Evaluate the probability of the allele combination to generate read profile" ## See detail in  probvalueforhetero.xml on https://github.com/Arkarachai/STR-FM
+python heteroprob.py  ${OUTPUT}.30.prob.screen  ${INPUT} >  ${OUTPUT}.30.bino
+
+echo "formatting"
+cat  ${OUTPUT}.30.bino | sort  -k 12n,12 -k 6n,6 > ${OUTPUT}.30.bino.sort
+
+echo "Combine read profile probabilities" ## See detail in  combineprobforallelecombination.xml on https://github.com/Arkarachai/STR-FM
+python combinedprobforallelecombination.py ${OUTPUT}.30.bino.sort > ${OUTPUT}.30.bino.sort.plot
+
+
+echo "Job end on `hostname` at `date`"
