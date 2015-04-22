@@ -1,0 +1,71 @@
+## This is a sample PBS script for profiling STR from mapped read using STR-FM version 0.0.2 (April 20, 2015)
+##   
+##requirement
+##1 sorted SAM files by read name --> ${INPUT}.sam
+##3 location of all STR in reference genome (use PBS script name "sampleSTR_reference_profiling.txt) --> /path/to/STR/in/reference/genome.TR (you can make 4 separated TR files for 4 types of STRs)
+##4 reference genome in FASTA 
+##5 local Galaxy (available from Galaxy website for Mac and Unix computer)
+##6 STR error rates (can be downloaded from https://usegalaxy.org/u/guru%40psu.edu/h/error-rates-files) --> errorrate.bymajorallele
+##
+echo " "
+echo " "
+echo "Job started on `hostname` at `date`"
+reference=/path/to/reference/sequence/and/bwa/index/ref.fa
+export PYTHONPATH=/path/to/galaxy-dist/lib/
+galaxydir=/path/to/galaxy-dist/tools
+cd /working/directory/
+echo " "
+echo " detect STR in short read" ## See detail in microsatellite.xml on https://github.com/Arkarachai/STR-FM
+python microsatellite.py ${INPUT}.sam  --sam --period=1 --partialmotifs --minlength=5 --prefix=20 --suffix=20 --hamming=0 --multipleruns --ref=${reference} > ${INPUT}.mono.RF.j 
+python microsatellite.py ${INPUT}.sam  --sam --period=2 --partialmotifs --minlength=6 --prefix=20 --suffix=20 --hamming=0 --multipleruns --ref=${reference} > ${INPUT}.di.RF.j 
+python microsatellite.py ${INPUT}.sam  --sam --period=3 --partialmotifs --minlength=9 --prefix=20 --suffix=20 --hamming=0 --multipleruns --ref=${reference} > ${INPUT}.tri.RF.j 
+python microsatellite.py ${INPUT}.sam  --sam --period=4 --partialmotifs --minlength=12 --prefix=20 --suffix=20 --hamming=0 --multipleruns --ref=${reference} > ${INPUT}.tetra.RF.j 
+
+echo "join mapped coordinate and STR length with STR location in genome"
+python ${galaxydir}/new_operations/gops_join.py /path/to/STR/in/reference/genome.TR ${INPUT}.mono.RF.j ${INPUT}.mono.gop -1 1,2,3,0 -2 10,13,14,0 -m 1 -f
+python ${galaxydir}/new_operations/gops_join.py /path/to/STR/in/reference/genome.TR ${INPUT}.di.RF.j ${INPUT}.di.gop -1 1,2,3,0 -2 10,13,14,0 -m 1 -f
+python ${galaxydir}/new_operations/gops_join.py /path/to/STR/in/reference/genome.TR ${INPUT}.tri.RF.j ${INPUT}.tri.gop -1 1,2,3,0 -2 10,13,14,0 -m 1 -f
+python ${galaxydir}/new_operations/gops_join.py /path/to/STR/in/reference/genome.TR ${INPUT}.tetra.RF.j ${INPUT}.tetra.gop -1 1,2,3,0 -2 10,13,14,0 -m 1 -f
+
+echo "remove incompatible motif (remove incorrect mapped reads given that there is no STR motif difference from reference genome)" ## See detail in microsatcompat.xml on https://github.com/Arkarachai/STR-FM
+python microsatcompat.py ${INPUT}.mono.gop 4 10 > ${INPUT}.mono.fulltable1 
+python microsatcompat.py ${INPUT}.di.gop 4 10 > ${INPUT}.di.fulltable1 
+python microsatcompat.py ${INPUT}.tri.gop 4 10 > ${INPUT}.tri.fulltable1 
+python microsatcompat.py ${INPUT}.tetra.gop 4 10 > ${INPUT}.tetra.fulltable1 
+
+echo "remove shifting flanking location (remove cases that come from STR interruption or flanking bases are misread as STRs)"
+cat ${INPUT}.mono.fulltable1 | awk '($19==$2) && ($20==$3) {print $0}' > ${INPUT}.mono.fulltable2
+cat ${INPUT}.di.fulltable1 | awk '($19==$2) && ($20==$3) {print $0}' > ${INPUT}.di.fulltable2
+cat ${INPUT}.tri.fulltable1 | awk '($19==$2) && ($20==$3) {print $0}' > ${INPUT}.tri.fulltable2
+cat ${INPUT}.tetra.fulltable1 | awk '($19==$2) && ($20==$3) {print $0}' > ${INPUT}.tetra.fulltable2
+
+echo "keep only column that are necessary for profiling" 
+cat ${INPUT}.mono.fulltable2| cut -f 1,2,3,4,5,7 | sort -k 1n,1 -k 2n,2 -k 3n,3 > ${INPUT}.mono.cuttmp0
+cat ${INPUT}.di.fulltable2| cut -f 1,2,3,4,5,7 | sort -k 1n,1 -k 2n,2 -k 3n,3 > ${INPUT}.di.cuttmp0
+cat ${INPUT}.tri.fulltable2| cut -f 1,2,3,4,5,7 | sort -k 1n,1 -k 2n,2 -k 3n,3 > ${INPUT}.tri.cuttmp0
+cat ${INPUT}.tetra.fulltable2| cut -f 1,2,3,4,5,7 | sort -k 1n,1 -k 2n,2 -k 3n,3 > ${INPUT}.tetra.cuttmp0
+
+echo "If you multiple analysis by splitting initial fastq, you should merge (cat) all results from the same sample after this step"
+
+echo "create genomic coordinate column and group by that column"
+perl ${galaxydir}/filters/fixedValueColumn.pl ${INPUT}.mono.cuttmp0 ${INPUT}.mono.cuttmp1 "_" "no"
+python ${galaxydir}/filters/mergeCols.py ${INPUT}.mono.cuttmp1 ${INPUT}.mono.cuttmp2 1 7 2 7 3
+python ${galaxydir}/stats/grouping.py ${INPUT}.mono.cuttmp3 ${INPUT}.mono.cuttmp2 8 0 'cat 6 0' 'cat_uniq 4 0'
+perl ${galaxydir}/filters/fixedValueColumn.pl ${INPUT}.di.cuttmp0 ${INPUT}.di.cuttmp1 "_" "no"
+python ${galaxydir}/filters/mergeCols.py ${INPUT}.di.cuttmp1 ${INPUT}.di.cuttmp2 1 7 2 7 3
+python ${galaxydir}/stats/grouping.py ${INPUT}.di.cuttmp3 ${INPUT}.di.cuttmp2 8 0 'cat 6 0' 'cat_uniq 4 0'
+perl ${galaxydir}/filters/fixedValueColumn.pl ${INPUT}.tri.cuttmp0 ${INPUT}.tri.cuttmp1 "_" "no"
+python ${galaxydir}/filters/mergeCols.py ${INPUT}.tri.cuttmp1 ${INPUT}.tri.cuttmp2 1 7 2 7 3
+python ${galaxydir}/stats/grouping.py ${INPUT}.tri.cuttmp3 ${INPUT}.tri.cuttmp2 8 0 'cat 6 0' 'cat_uniq 4 0'
+perl ${galaxydir}/filters/fixedValueColumn.pl ${INPUT}.tetra.cuttmp0 ${INPUT}.tetra.cuttmp1 "_" "no"
+python ${galaxydir}/filters/mergeCols.py ${INPUT}.tetra.cuttmp1 ${INPUT}.tetra.cuttmp2 1 7 2 7 3
+python ${galaxydir}/stats/grouping.py ${INPUT}.tetra.cuttmp3 ${INPUT}.tetra.cuttmp2 8 0 'cat 6 0' 'cat_uniq 4 0'
+
+echo "you may filter for minimum sequencing depth here"
+
+echo "genotyping using error correction model" ## See detail in GenotypingSTR.xml on https://github.com/Arkarachai/STR-FM
+cat ${INPUT}.mono.cuttmp2 ${INPUT}.di.cuttmp2 ${INPUT}.tri.cuttmp2 ${INPUT}.tetra.cuttmp2 > ${INPUT}.step5
+python GenotypeTRcorrection.py ${INPUT}.step5 errorrate.bymajorallele ${INPUT}.step5.result 0.5
+## final output is ${INPUT}.step5.result
+
+echo "Job end on `hostname` at `date`"
