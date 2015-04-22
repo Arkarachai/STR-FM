@@ -91,7 +91,7 @@
     <test>
       <param name="filePath" value="C_sample_fastq"/>
 	  <param name="period" value="1"/>
-	  <param format="fastq,fastqsanger" type="data"/>
+	  <param name="inputFileType" value="fastq"/>
       <param name="partialmotifs" value="true" />
 	  <param name="minlength" value="3" />
 	  <param name="prefix" value="5"/>
