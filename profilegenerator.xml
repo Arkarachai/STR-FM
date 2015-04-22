@@ -18,7 +18,7 @@
       <param name="error_profile" value="sampleprofilegenerator_in"/>
       <param name="MOTIF" value="A"/>
       <param name="Maxdepth" value="3"/>
-      <param name="minprob" file="0.00000001"/>
+      <param name="minprob" value="0.00000001"/>
       <output name="output" file="sampleprofilegenerator_out"/>
     </test>
     
