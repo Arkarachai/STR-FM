@@ -8,6 +8,10 @@
 ##5 local Galaxy (available from Galaxy website for Mac and Unix computer)
 ##6 STR error rates (can be downloaded from https://usegalaxy.org/u/guru%40psu.edu/h/error-rates-files) --> errorrate.bymajorallele
 ##
+##Note that the tools that are available on standard realease of local Galaxy is dynamic. If some of the tools that I used in pipeline are no longer come with the standard release, please download them from Galaxy toolshed. If you want to do your work in command line, please also modify the path to those tool that you installed from toolshed. With a Galaxy default installation, tools from toolshed will be at the same directory level as the "galaxy" primary build.
+##For example, in the current version of standard release of local Galaxy (as of June 26, 2015), the ${galaxydir}/new_operations/gops_join.py is no longer come with the package. If you download our STR-FM from suite_str_fm_1_0, this tools should be available on (from galaxy-dist directory) ../shed_tools/toolshed.g2.bx.psu.edu/repos/devteam/join/de21bdbb8d28/join/gops_join.py. The version number might change, so you may have to search through toolshed directory.
+##I'm not sure what is the best way to provide command line sample given that people have different version of local Galaxy. If anyone have suggestion, please let me know. 
+##There is no secret in science (hopefully). If you have any questions in any of our tools, please ask. 
 echo " "
 echo " "
 echo "Job started on `hostname` at `date`"
