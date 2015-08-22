@@ -1,0 +1,191 @@
+{
+    "a_galaxy_workflow": "true", 
+    "annotation": "", 
+    "format-version": "0.1", 
+    "name": "TR genome profiling", 
+    "steps": {
+        "0": {
+            "annotation": "", 
+            "id": 0, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "", 
+                    "name": "fasta reference file"
+                }
+            ], 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 200, 
+                "top": 250
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"fasta reference file\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "user_outputs": []
+        }, 
+        "1": {
+            "annotation": "", 
+            "id": 1, 
+            "input_connections": {
+                "filePath": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "name": "STR detection", 
+            "outputs": [
+                {
+                    "name": "stdout", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 439, 
+                "top": 250.5
+            }, 
+            "post_job_actions": {
+                "ChangeDatatypeActionstdout": {
+                    "action_arguments": {
+                        "newtype": "tabular"
+                    }, 
+                    "action_type": "ChangeDatatypeAction", 
+                    "output_name": "stdout"
+                }, 
+                "HideDatasetActionstdout": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "stdout"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/microsatellite/1.0.0", 
+            "tool_state": "{\"__page__\": 0, \"flankSetting\": \"{\\\"noflankdisplay\\\": \\\"False\\\", \\\"flankdisplay\\\": \\\"0\\\", \\\"__current_case__\\\": 0}\", \"filePath\": \"null\", \"minlength\": \"\\\"5\\\"\", \"hammingThreshold\": \"\\\"0\\\"\", \"period\": \"\\\"1\\\"\", \"surfix\": \"\\\"0\\\"\", \"prefix\": \"\\\"0\\\"\", \"__rerun_remap_job_id__\": null, \"inputFileSource\": \"{\\\"inputFileType\\\": \\\"fasta\\\", \\\"__current_case__\\\": 2}\", \"partialmotifs\": \"\\\"True\\\"\", \"multipleruns\": \"\\\"True\\\"\"}", 
+            "tool_version": "1.0.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "2": {
+            "annotation": "", 
+            "id": 2, 
+            "input_connections": {
+                "input": {
+                    "id": 1, 
+                    "output_name": "stdout"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Compute", 
+            "outputs": [
+                {
+                    "name": "out_file1", 
+                    "type": "input"
+                }
+            ], 
+            "position": {
+                "left": 688, 
+                "top": 250
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionout_file1": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "Add_a_column1", 
+            "tool_state": "{\"input\": \"null\", \"__rerun_remap_job_id__\": null, \"cond\": \"\\\"int(c1+c2)\\\"\", \"round\": \"\\\"no\\\"\", \"__page__\": 0}", 
+            "tool_version": "1.1.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "3": {
+            "annotation": "", 
+            "id": 3, 
+            "input_connections": {
+                "input": {
+                    "id": 2, 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Compute", 
+            "outputs": [
+                {
+                    "name": "out_file1", 
+                    "type": "input"
+                }
+            ], 
+            "position": {
+                "left": 916, 
+                "top": 250
+            }, 
+            "post_job_actions": {
+                "HideDatasetActionout_file1": {
+                    "action_arguments": {}, 
+                    "action_type": "HideDatasetAction", 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "Add_a_column1", 
+            "tool_state": "{\"input\": \"null\", \"__rerun_remap_job_id__\": null, \"cond\": \"\\\"len(c4)\\\"\", \"round\": \"\\\"no\\\"\", \"__page__\": 0}", 
+            "tool_version": "1.1.0", 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "4": {
+            "annotation": "", 
+            "id": 4, 
+            "input_connections": {
+                "input": {
+                    "id": 3, 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Cut", 
+            "outputs": [
+                {
+                    "name": "out_file1", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 1144, 
+                "top": 250
+            }, 
+            "post_job_actions": {
+                "ChangeDatatypeActionout_file1": {
+                    "action_arguments": {
+                        "newtype": "interval"
+                    }, 
+                    "action_type": "ChangeDatatypeAction", 
+                    "output_name": "out_file1"
+                }, 
+                "ColumnSetActionout_file1": {
+                    "action_arguments": {
+                        "chromCol": "1", 
+                        "endCol": "3", 
+                        "nameCol": "", 
+                        "startCol": "2", 
+                        "strandCol": ""
+                    }, 
+                    "action_type": "ColumnSetAction", 
+                    "output_name": "out_file1"
+                }
+            }, 
+            "tool_errors": null, 
+            "tool_id": "Cut1", 
+            "tool_state": "{\"columnList\": \"\\\"c6,c2,c9,c4,c1,c10\\\"\", \"input\": \"null\", \"delimiter\": \"\\\"T\\\"\", \"__rerun_remap_job_id__\": null, \"__page__\": 0}", 
+            "tool_version": "1.0.2", 
+            "type": "tool", 
+            "user_outputs": []
+        }
+    }
+}
