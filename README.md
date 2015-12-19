@@ -5,6 +5,8 @@ We designed the STR profiling pipeline as a collection of tools which can be exe
 
 **Note that the tools that are available on standard realease of local Galaxy is dynamic. If some of the tools that I used in pipeline are no longer come with the standard release, please download them from Galaxy toolshed. If you want to do your work in command line, please also modify the path to those tool that you installed from toolshed. With a Galaxy default installation, tools from toolshed will be at the same directory level as the "galaxy" primary build. Please see command line sample.**
 
+**Thanks to Martin and Galaxy team. STR-FM is now on Galaxy main!***
+
 ## Overview
 
 Our tools in ‘str_fm’ can be used to: 
