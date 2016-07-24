@@ -5,9 +5,20 @@ from galaxy import eggs
 import pkg_resources
 pkg_resources.require( "bx-python" )
 import bx.seq.twobit
+import re
 
 ##output columns: read_name chr prefix_start    prefix_end  TR_start    TR_end  suffix_start    suffix_end  TR_length   TR_sequence
 
+def readlengthinfer(sequence):
+	total_readlength=0
+	countlist=['M','I','S','X','=']
+	not_countlist=['D','P','N','H']
+	matchs=re.findall(r"(\d+)([A-Z=])",sequence)
+	for match in matchs:
+		if match[1] in countlist:
+			total_readlength+=int(match[0])
+	return total_readlength
+    
 samf = open(sys.argv[1],'r') #assumes sam file is sorted by readname
 seq_path = sys.argv[2] #Path to the reference genome in 2bit format
 
@@ -62,15 +73,17 @@ while True:
     read_chr = read_elems[2]
     read_start = int(read_elems[3])
     read_cigar = read_elems[5]
-    if len(read_cigar.split('M')) != 2:     #we want perfect matches only..cigar= <someInt>M
-        continue
-    read_len = int(read_cigar.split('M')[0])
+#    if len(read_cigar.split('M')) != 2:     #we want perfect matches only..cigar= <someInt>M
+#        continue
+#    read_len = int(read_cigar.split('M')[0])
+    read_len=readlengthinfer(read_cigar)
     mate_chr = mate_elems[2]
     mate_start = int(mate_elems[3])
     mate_cigar = mate_elems[5]
-    if len(mate_cigar.split('M')) != 2:     #we want perfect matches only..cigar= <someInt>M
-        continue
-    mate_len = int(mate_cigar.split('M')[0])
+#    if len(mate_cigar.split('M')) != 2:     #we want perfect matches only..cigar= <someInt>M
+#        continue
+#    mate_len = int(mate_cigar.split('M')[0])
+    mate_len=readlengthinfer(mate_cigar)
     if read_chr != mate_chr:            # check that they were mapped to the same chromosome
         continue
     if abs(read_start - mate_start) > (maxoriginalreadlength+maxTRlength):
