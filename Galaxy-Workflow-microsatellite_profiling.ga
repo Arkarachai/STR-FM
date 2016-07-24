@@ -377,9 +377,9 @@
                 }
             }, 
             "tool_errors": null, 
-            "tool_id": "toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/PEsortedSAM2readprofile/1.0.0", 
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/PEsortedSAM2readprofile/1.1.0", 
             "tool_state": "{\"__page__\": 0, \"__rerun_remap_job_id__\": null, \"maxoriginalreadlength\": \"\\\"101\\\"\", \"maxTRlength\": \"\\\"100\\\"\", \"flankedbasesSAM\": \"null\", \"twobitref\": \"null\"}", 
-            "tool_version": "1.0.0", 
+            "tool_version": "1.1.0", 
             "type": "tool", 
             "user_outputs": []
         }, 
