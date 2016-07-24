@@ -1,11 +1,11 @@
-<tool id="PEsortedSAM2readprofile" name="Combine mapped faux paired-end reads" version="1.0.0">
+<tool id="PEsortedSAM2readprofile" name="Combine mapped faux paired-end reads" version="1.1.0">
   <description> and get the reference STR allele from the reference genome  </description>
   <command interpreter="python2.7">PEsortedSAM2readprofile.py  $flankedbasesSAM $twobitref $maxTRlength $maxoriginalreadlength $output </command>
 
   <inputs>
     <param name="flankedbasesSAM" type="data" format="sam" label="Select sorted SAM file (by readname) of flaked bases" />
     <param name="twobitref" type="data" label="Select twobit file reference genome" />
-	<param name="maxTRlength" type="integer" value="100" label="Maximum expected microsatellite length (bp)" />
+	<param name="maxTRlength" type="integer" value="100" label="Maximum microsatellite length in reference (bp)" />
 	<param name="maxoriginalreadlength" type="integer" value="101" label="Maxinum original read length" />
 
   </inputs>
