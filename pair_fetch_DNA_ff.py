@@ -11,7 +11,6 @@
 # Command: python pair_fetch_DNA_ff.py input.txt
 
 import sys
-from galaxy import eggs
 
 def stop_err(msg):
     sys.stderr.write(msg)
