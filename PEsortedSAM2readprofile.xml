@@ -1,4 +1,4 @@
-<tool id="PEsortedSAM2readprofile" name="Combine mapped faux paired-end reads" version="1.1.0">
+<tool id="PEsortedSAM2readprofile" name="Combine mapped faux paired-end reads" version="1.1.1">
   <description> and get the reference STR allele from the reference genome  </description>
   <command interpreter="python2.7">PEsortedSAM2readprofile.py  $flankedbasesSAM $twobitref $maxTRlength $maxoriginalreadlength $output </command>
 
