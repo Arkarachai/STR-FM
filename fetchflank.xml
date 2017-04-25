@@ -1,4 +1,4 @@
-<tool id="fetchflank" name="Fetch bases flanking" version="1.0.0">
+<tool id="fetchflank" name="Fetch bases flanking" version="1.0.1">
   <description> the STRs in the reads and output two fastq files in forward-forward orientation</description>
   <command interpreter="python">pair_fetch_DNA_ff.py  $microsat_in_read $Leftflanking $Rightflanking $qualitycutoff $lengthofbasetocheckquality  </command>
 
